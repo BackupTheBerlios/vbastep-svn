@@ -1,0 +1,77 @@
+2002-11-07  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/SDL.cpp (main): fixed crash when trying load file that does not exist
+	* src/SDL.cpp (systemUpdateMotionSensor): implemented motion sensor for the SDL version
+
+2002-11-06  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/elf.cpp: fix wrong usage of CPUReadMemory
+	* src/admame.cpp: fixed incorrect #ifdef usage
+	* configure.in: added test for socklen_t type
+	* src/remote.cpp: fix problem compiling in some systems
+	* src/GBA.cpp (CPULoop): added support for movement sensor
+	* src/GBA.cpp (CPUReset): added support for selecting save type available
+
+2002-11-05  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/win32/DirectoriesDlg.cpp (browseForDir): fix bug when changing directory using the Browse button
+
+2002-11-04  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/GBA.cpp (CPUUpdateRegister): do not change timer data when writting to register TMxD. Only a restart or overflow will change the value
+
+2002-11-02  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/GBA.cpp (CPUWriteGSASnapshot): Compute CRC of save
+
+2002-10-31  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/GBA.cpp (CPUWriteGSASnapshot): fixed a few bytes in the snapshot
+	* src/Sound.cpp (soundEvent): fixed envelope reload bugs
+	* src/bios.cpp (BIOS_MidiKey2Freq): Added method (user contribution)
+	* src/Gfx.h: fixed problems in big endian machines
+
+2002-10-29  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/thumb.cpp: fixed bugs in C core 
+
+2002-10-28  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/GBA.cpp (CPUSoftwareInterrupt): improved message about BIOS calls that are not emulated and need a BIOS file
+	* src/GBA.cpp (CPUInit): fix bug setting reable IO positions
+
+2002-10-27  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/SDL.cpp (sdlReadPreferences): Fixed warning if MMX not in use when reading the configuration file
+	* src/SDL.cpp (main): Fixed crash if BIOS file not specified correctly
+	* src/win32/Win32.cpp: Support for higher frameskip 
+	* src/SDL.cpp: Support for higher frameskip 
+
+2002-10-26  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/win32/Win32.cpp: Add 800x600 support 
+
+2002-10-25  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/win32/Win32.cpp (fileExportGSASnapshot): added code
+	* src/win32/ExportGSASnapshot.cpp: Created dialog 
+	* src/win32/Commands.cpp: Added new menu options
+
+2002-10-24  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/GBA.cpp (CPUReadGSASnapshot): Now skipping notes if they exist
+
+2002-10-23  Forgotten  <forgotten@users.sourceforge.net>
+
+	* src/win32/Win32.cpp (initApp): remember freeze recent list flag
+
+2002-10-22  Forgotten  <forgotten@users.sourceforge.net>
+	
+	* win32/.cvsignore: added output directories and MSVC files to ignore
+	* src/win32/.cvsignore: Added vba.aps to ignore list	
+	* src/TestEmu.cpp (systemPauseOnFrame): Added missing return statement
+	* INSTALL: Updated GCC requirements
+	* src/win32/Win32.cpp: added flag to freeze recent list
+	* src/win32/vba.rc: added flag to freeze recent list
+	* Initial Public Version
+

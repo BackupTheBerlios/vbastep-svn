@@ -234,7 +234,7 @@ struct ELFFrameState {
   int returnAddress;
 };
 
-extern bool cpuIsMultiBoot;
+extern char cpuIsMultiBoot;
 
 Symbol *elfSymbols = NULL;
 char *elfSymbolsStrTab = NULL;
@@ -2797,7 +2797,7 @@ bool elfReadProgram(ELFHeader *eh, u8 *data, int& size, bool parseDebug)
   return true;
 }
 
-extern bool parseDebug;
+extern char parseDebug;
 
 bool elfRead(const char *name, int& siz, FILE *f)
 {

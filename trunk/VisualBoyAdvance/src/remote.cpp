@@ -43,14 +43,23 @@
 
 #include "GBA.h"
 
-extern bool debugger;
+extern char debugger;
 extern void CPUUpdateCPSR();
 #ifdef SDL
 extern void (*dbgMain)();
 extern void (*dbgSignal)(int,int);
-extern void debuggerMain();
-extern void debuggerSignal(int,int);
+extern "C" void debuggerMain();
+extern "C" void debuggerSignal(int,int);
 #endif
+
+extern "C" void remoteInit();
+extern "C" void remoteCleanUp();
+extern "C" void remoteStubMain();
+extern "C" void remoteStubSignal(int,int);
+extern "C" void remoteOutput(char *, u32);
+extern "C" void remoteSetProtocol(int);
+extern "C" void remoteSetPort(int);
+
 
 int remotePort = 55555;
 int remoteSignal = 5;
@@ -349,7 +358,7 @@ void remoteBinaryWrite(char *p)
   u32 address;
   int count;
   sscanf(p,"%x,%x:", &address, &count);
-  //  printf("Binary write for %08x %d\n", address, count);
+    printf("Binary write for %08x %d\n", address, count);
 
   p = strchr(p, ':');
   p++;

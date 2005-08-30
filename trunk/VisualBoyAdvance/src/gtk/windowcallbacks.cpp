@@ -42,13 +42,15 @@ extern int RGB_LOW_BITS_MASK;
 extern void (*dbgMain)();
 extern void (*dbgSignal)(int, int);
 extern void (*dbgOutput)(char *, u32);
-extern void remoteInit();
-extern void remoteCleanUp();
-extern void remoteStubMain();
-extern void remoteStubSignal(int, int);
-extern void remoteOutput(char *, u32);
-extern void remoteSetProtocol(int);
-extern void remoteSetPort(int);
+extern "C" {
+  extern void remoteInit();
+  extern void remoteCleanUp();
+  extern void remoteStubMain();
+  extern void remoteStubSignal(int, int);
+  extern void remoteOutput(char *, u32);
+  extern void remoteSetProtocol(int);
+  extern void remoteSetPort(int);
+}
 
 #ifdef MMX
 extern "C" bool cpu_mmx;

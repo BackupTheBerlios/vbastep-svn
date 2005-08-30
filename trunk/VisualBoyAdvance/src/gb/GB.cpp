@@ -638,7 +638,7 @@ void  gbWriteMemory(register u16 address, register u8 value)
   if(address < 0x8000) {
 #ifndef FINAL_VERSION    
     if(memorydebug && (address>0x3fff || address < 0x2000)) {
-      log("Memory register write %04x=%02x PC=%04x\n",
+      emulog("Memory register write %04x=%02x PC=%04x\n",
           address,
           value,
           PC.W);
@@ -657,7 +657,7 @@ void  gbWriteMemory(register u16 address, register u8 value)
   if(address < 0xc000) {
 #ifndef FINAL_VERSION
     if(memorydebug) {
-      log("Memory register write %04x=%02x PC=%04x\n",
+      emulog("Memory register write %04x=%02x PC=%04x\n",
           address,
           value,
           PC.W);
@@ -1210,7 +1210,7 @@ u8 gbReadMemory(register u16 address)
   if(address < 0xc000) {
 #ifndef FINAL_VERSION
     if(memorydebug) {
-      log("Memory register read %04x PC=%04x\n",
+      emulog("Memory register read %04x PC=%04x\n",
           address,
           PC.W);
     }
@@ -1917,7 +1917,7 @@ bool gbWriteBatteryFile(const char *file, bool extendedSave)
   return true;
 }
 
-bool gbWriteBatteryFile(const char *file)
+char gbWriteBatteryFile(const char *file)
 {
   gbWriteBatteryFile(file, true);
   return true;
@@ -2153,7 +2153,7 @@ static bool gbWriteSaveState(gzFile gzFile)
   return true;
 }
 
-bool gbWriteMemSaveState(char *memory, int available)
+char gbWriteMemSaveState(char *memory, int available)
 {
   gzFile gzFile = utilMemGzOpen(memory, available, "w");
 
@@ -2173,7 +2173,7 @@ bool gbWriteMemSaveState(char *memory, int available)
   return res;
 }
 
-bool gbWriteSaveState(const char *name)
+char gbWriteSaveState(const char *name)
 {
   gzFile gzFile = utilGzOpen(name,"wb");
 
@@ -2353,7 +2353,7 @@ static bool gbReadSaveState(gzFile gzFile)
   return true;
 }
 
-bool gbReadMemSaveState(char *memory, int available)
+char gbReadMemSaveState(char *memory, int available)
 {
   gzFile gzFile = utilMemGzOpen(memory, available, "r");
 
@@ -2364,7 +2364,7 @@ bool gbReadMemSaveState(char *memory, int available)
   return res;
 }
 
-bool gbReadSaveState(const char *name)
+char gbReadSaveState(const char *name)
 {
   gzFile gzFile = utilGzOpen(name,"rb");
 
@@ -2379,14 +2379,14 @@ bool gbReadSaveState(const char *name)
   return res;
 }
 
-bool gbWritePNGFile(const char *fileName)
+char gbWritePNGFile(const char *fileName)
 {
   if(gbBorderOn)
     return utilWritePNGFile(fileName, 256, 224, pix);
   return utilWritePNGFile(fileName, 160, 144, pix);
 }
 
-bool gbWriteBMPFile(const char *fileName)
+char gbWriteBMPFile(const char *fileName)
 {
   if(gbBorderOn)
     return utilWriteBMPFile(fileName, 256, 224, pix);
@@ -2448,7 +2448,7 @@ bool gbLoadRom(const char *szFile)
   gbRom = utilLoad(szFile,
                    utilIsGBImage,
                    NULL,
-                   size);
+                   &size);
   if(!gbRom)
     return false;
 
@@ -2629,7 +2629,7 @@ void gbEmulate(int ticksToStop)
         } else {
           sprintf(gbBuffer,"PC=%04x I=%02x\n", PC.W, IFF);
         }
-        log(gbBuffer);
+        emulog(gbBuffer);
       }
     }
 #endif

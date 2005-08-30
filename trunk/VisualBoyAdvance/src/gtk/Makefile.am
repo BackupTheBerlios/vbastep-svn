@@ -101,7 +101,9 @@ libgba_a_SOURCES = \
 	../simple2x.cpp		\
 	../thumb.h		\
 	../unzip.cpp		\
-	../unzip.h
+	../unzip.h \
+	../log.cpp \
+	../CPULoop.cpp
 
 libgba_a_CPPFLAGS = -DSDL
 

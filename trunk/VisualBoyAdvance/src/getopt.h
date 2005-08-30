@@ -98,7 +98,7 @@ struct option
 #define	no_argument		0
 #define required_argument	1
 #define optional_argument	2
-
+#define HAVE_DECL_GETOPT 1
 #if defined (__STDC__) && __STDC__
 /* HAVE_DECL_* is a three-state macro: undefined, 0 or 1.  If it is
    undefined, we haven't run the autoconf check so provide the

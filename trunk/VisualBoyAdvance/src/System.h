@@ -54,37 +54,41 @@ struct EmulatedSystem {
   // clean up memory
   void (*emuCleanUp)();
   // load battery file
-  bool (*emuReadBattery)(const char *);
+  char (*emuReadBattery)(const char *);
   // write battery file
-  bool (*emuWriteBattery)(const char *);
+  char (*emuWriteBattery)(const char *);
   // load state
-  bool (*emuReadState)(const char *);  
+  char (*emuReadState)(const char *);  
   // save state
-  bool (*emuWriteState)(const char *);
+  char (*emuWriteState)(const char *);
   // load memory state (rewind)
-  bool (*emuReadMemState)(char *, int);
+  char (*emuReadMemState)(char *, int);
   // write memory state (rewind)
-  bool (*emuWriteMemState)(char *, int);
+  char (*emuWriteMemState)(char *, int);
   // write PNG file
-  bool (*emuWritePNG)(const char *);
+  char (*emuWritePNG)(const char *);
   // write BMP file
-  bool (*emuWriteBMP)(const char *);
+  char (*emuWriteBMP)(const char *);
   // emulator update CPSR (ARM only)
   void (*emuUpdateCPSR)();
   // emulator has debugger
-  bool emuHasDebugger;
+  char emuHasDebugger;
   // clock ticks to emulate
   int emuCount;
 };
 
-extern void log(const char *,...);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-extern bool systemPauseOnFrame();
+extern void emulog(const char *,...);
+
+extern char systemPauseOnFrame();
 extern void systemGbPrint(u8 *,int,int,int,int);
 extern void systemScreenCapture(int);
 extern void systemDrawScreen();
 // updates the joystick data
-extern bool systemReadJoypads();
+extern char systemReadJoypads();
 // return information about the given joystick, -1 for default joystick
 extern u32 systemReadJoypad(int);
 extern u32 systemGetClock();
@@ -95,18 +99,22 @@ extern void systemSoundShutdown();
 extern void systemSoundPause();
 extern void systemSoundResume();
 extern void systemSoundReset();
-extern bool systemSoundInit();
+extern char systemSoundInit();
 extern void systemScreenMessage(const char *);
 extern void systemUpdateMotionSensor();
 extern int  systemGetSensorX();
 extern int  systemGetSensorY();
-extern bool systemCanChangeSoundQuality();
+extern char systemCanChangeSoundQuality();
 extern void systemShowSpeed(int);
 extern void system10Frames(int);
 extern void systemFrame();
 extern void systemGbBorderOn();
 
-extern bool systemSoundOn;
+#ifdef __cplusplus
+}
+#endif
+
+extern char systemSoundOn;
 extern u16 systemColorMap16[0x10000];
 extern u32 systemColorMap32[0x10000];
 extern u16 systemGbPalette[24];

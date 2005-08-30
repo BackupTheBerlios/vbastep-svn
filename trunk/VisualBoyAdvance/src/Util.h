@@ -25,6 +25,10 @@ enum IMAGE_TYPE {
   IMAGE_GB      = 1
 };
 
+#ifndef __cplusplus
+typedef enum IMAGE_TYPE IMAGE_TYPE;
+#endif
+
 // save game
 
 typedef struct {
@@ -32,21 +36,21 @@ typedef struct {
   int size;
 } variable_desc;
 
-extern bool utilWritePNGFile(const char *, int, int, u8 *);
-extern bool utilWriteBMPFile(const char *, int, int, u8 *);
+extern char utilWritePNGFile(const char *, int, int, u8 *);
+extern char utilWriteBMPFile(const char *, int, int, u8 *);
 extern void utilApplyIPS(const char *ips, u8 **rom, int *size);
 extern void utilWriteBMP(char *, int, int, u8 *);
-extern bool utilIsGBAImage(const char *);
-extern bool utilIsGBImage(const char *);
-extern bool utilIsZipFile(const char *);
-extern bool utilIsGzipFile(const char *);
-extern bool utilIsRarFile(const char *);
+extern char utilIsGBAImage(const char *);
+extern char utilIsGBImage(const char *);
+extern char utilIsZipFile(const char *);
+extern char utilIsGzipFile(const char *);
+extern char utilIsRarFile(const char *);
 extern void utilGetBaseName(const char *, char *);
 extern IMAGE_TYPE utilFindType(const char *);
 extern u8 *utilLoad(const char *,
-                    bool (*)(const char*),
+                    char (*)(const char*),
                     u8 *,
-                    int &);
+                    int *);
 
 extern void utilPutDword(u8 *, u32);
 extern void utilPutWord(u8 *, u16);

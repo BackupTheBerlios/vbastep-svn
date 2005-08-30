@@ -24,11 +24,11 @@
 #include "Port.h"
 #include "RTC.h"
 
-extern bool cpuSramEnabled;
-extern bool cpuFlashEnabled;
-extern bool cpuEEPROMEnabled;
-extern bool cpuEEPROMSensorEnabled;
-extern bool cpuDmaHack;
+extern char cpuSramEnabled;
+extern char cpuFlashEnabled;
+extern char cpuEEPROMEnabled;
+extern char cpuEEPROMSensorEnabled;
+extern char cpuDmaHack;
 extern u32 cpuDmaLast;
 
 #define CPUReadByteQuick(addr) \

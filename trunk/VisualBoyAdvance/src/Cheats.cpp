@@ -2691,7 +2691,7 @@ void cheatsSaveCheatList(const char *file)
   fclose(f);
 }
 
-bool cheatsLoadCheatList(const char *file)
+char cheatsLoadCheatList(const char *file)
 {
   cheatsNumber = 0;
 
@@ -2786,7 +2786,7 @@ bool cheatsLoadCheatList(const char *file)
 
 extern int cpuNextEvent;
 
-extern void debuggerBreakOnWrite(u32 , u32, u32, int, int); 
+extern "C" void debuggerBreakOnWrite(u32 , u32, u32, int, int); 
 
 static u8 cheatsGetType(u32 address)
 {
@@ -2802,7 +2802,7 @@ static u8 cheatsGetType(u32 address)
 void cheatsWriteMemory(u32 address, u32 value)
 {
 #ifdef BKPT_SUPPORT
-#ifdef SDL
+#ifndef SDL
   if(cheatsNumber == 0) {
     int type = cheatsGetType(address);
     u32 oldValue = debuggerReadMemory(address);

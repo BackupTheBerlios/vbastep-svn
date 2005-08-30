@@ -29,7 +29,7 @@ int eepromBits = 0;
 int eepromAddress = 0;
 u8 eepromData[0x2000];
 u8 eepromBuffer[16];
-bool eepromInUse = false;
+char eepromInUse = false;
 int eepromSize = 512;
 
 variable_desc eepromSaveData[] = {
@@ -37,7 +37,7 @@ variable_desc eepromSaveData[] = {
   { &eepromByte, sizeof(int) },
   { &eepromBits , sizeof(int) },
   { &eepromAddress , sizeof(int) },
-  { &eepromInUse, sizeof(bool) },
+  { &eepromInUse, sizeof(char) },
   { &eepromData[0], 512 },
   { &eepromBuffer[0], 16 },
   { NULL, 0 }

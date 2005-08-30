@@ -28,6 +28,7 @@
 #include "../gb/gbGlobals.h"
 #include "../Util.h"
 #include "../Sound.h"
+#include "../System.h"
 
 #include "window.h"
 #include "intl.h"
@@ -45,10 +46,10 @@ int  systemFrameSkip;
 u32  systemColorMap32[0x10000];
 u16  systemColorMap16[0x10000];
 u16  systemGbPalette[24];
-bool systemSoundOn;
+char systemSoundOn;
 
 int  emulating;
-bool debugger;
+char debugger;
 int  RGB_LOW_BITS_MASK;
 
 // Extra vars, only used for the GUI
@@ -70,6 +71,7 @@ inline VBA::Window * GUI()
   return VBA::Window::poGetInstance();
 }
 
+extern "C" {
 void systemMessage(int _iId, const char * _csFormat, ...)
 {
   va_list args;
@@ -86,7 +88,7 @@ void systemDrawScreen()
   systemRenderedFrames++;
 }
 
-bool systemReadJoypads()
+char systemReadJoypads()
 {
   return true;
 }
@@ -130,7 +132,7 @@ void systemWriteDataToSoundBuffer()
     SDL_PauseAudio(0);
   }
 
-  bool bWait = true;
+  char bWait = true;
   while (bWait && ! speedup && GUI()->iGetThrottle() == 0)
   {
     SDL_mutexP(pstSoundMutex);
@@ -205,7 +207,7 @@ static void vSoundCallback(void * _pvUserData, u8 * _puiStream, int _iLen)
   SDL_mutexV(pstSoundMutex);
 }
 
-bool systemSoundInit()
+char systemSoundInit()
 {
   SDL_AudioSpec stAudio;
 
@@ -312,12 +314,12 @@ void systemScreenMessage(const char * _csMsg)
 {
 }
 
-bool systemCanChangeSoundQuality()
+char systemCanChangeSoundQuality()
 {
   return true;
 }
 
-bool systemPauseOnFrame()
+char systemPauseOnFrame()
 {
   return false;
 }
@@ -338,6 +340,12 @@ void debuggerOutput(char *, u32)
 {
 }
 
+void debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value, 
+                          int size, int t)
+{
+}
+ 
+} // extern "C" 
 void (*dbgMain)() = debuggerMain;
 void (*dbgSignal)(int, int) = debuggerSignal;
 void (*dbgOutput)(char *, u32) = debuggerOutput;

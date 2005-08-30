@@ -38,7 +38,6 @@ extern "C" {
 #include "RTC.h"
 #include "Port.h"
 
-
 extern "C" {
 #include "memgzio.h"
 }
@@ -59,7 +58,7 @@ static int (ZEXPORT *utilGzWriteFunc)(gzFile, const voidp, unsigned int) = NULL;
 static int (ZEXPORT *utilGzReadFunc)(gzFile, voidp, unsigned int) = NULL;
 static int (ZEXPORT *utilGzCloseFunc)(gzFile) = NULL;
 
-bool utilWritePNGFile(const char *fileName, int w, int h, u8 *pix)
+char utilWritePNGFile(const char *fileName, int w, int h, u8 *pix)
 {
   u8 writeBuffer[512 * 3];
   
@@ -268,7 +267,7 @@ void utilWriteBMP(char *buf, int w, int h, u8 *pix)
   }  
 }
 
-bool utilWriteBMPFile(const char *fileName, int w, int h, u8 *pix)
+char utilWriteBMPFile(const char *fileName, int w, int h, u8 *pix)
 {
   u8 writeBuffer[512 * 3];
   
@@ -480,9 +479,9 @@ void utilApplyIPS(const char *ips, u8 **r, int *s)
   fclose(f);
 }
 
-extern bool cpuIsMultiBoot;
+extern char cpuIsMultiBoot;
 
-bool utilIsGBAImage(const char * file)
+char utilIsGBAImage(const char * file)
 {
   cpuIsMultiBoot = false;
   if(strlen(file) > 4) {
@@ -507,7 +506,7 @@ bool utilIsGBAImage(const char * file)
   return false;
 }
 
-bool utilIsGBImage(const char * file)
+char utilIsGBImage(const char * file)
 {
   if(strlen(file) > 4) {
     char * p = strrchr(file,'.');
@@ -527,7 +526,7 @@ bool utilIsGBImage(const char * file)
   return false;
 }
 
-bool utilIsZipFile(const char *file)
+char utilIsZipFile(const char *file)
 {
   if(strlen(file) > 4) {
     char * p = strrchr(file,'.');
@@ -542,7 +541,7 @@ bool utilIsZipFile(const char *file)
 }
 
 #if 0
-bool utilIsRarFile(const char *file)
+char utilIsRarFile(const char *file)
 {
   if(strlen(file) > 4) {
     char * p = strrchr(file,'.');
@@ -557,7 +556,7 @@ bool utilIsRarFile(const char *file)
 }
 #endif
 
-bool utilIsGzipFile(const char *file)
+char utilIsGzipFile(const char *file)
 {
   if(strlen(file) > 3) {
     char * p = strrchr(file,'.');
@@ -696,7 +695,7 @@ static int utilGetSize(int size)
 }
 
 static u8 *utilLoadFromZip(const char *file,
-                           bool (*accept)(const char *),
+                           char (*accept)(const char *),
                            u8 *data,
                            int &size)
 {
@@ -716,7 +715,7 @@ static u8 *utilLoadFromZip(const char *file,
     return NULL;
   }
     
-  bool found = false;
+  char found = false;
     
   unz_file_info info;
   
@@ -800,7 +799,7 @@ static u8 *utilLoadFromZip(const char *file,
 }
 
 static u8 *utilLoadGzipFile(const char *file,
-                            bool (*accept)(const char *),
+                            char (*accept)(const char *),
                             u8 *data,
                             int &size)
 {
@@ -856,7 +855,7 @@ static u8 *utilLoadGzipFile(const char *file,
 
 #if 0
 static u8 *utilLoadRarFile(const char *file,
-                           bool (*accept)(const char *),
+                           char (*accept)(const char *),
                            u8 *data,
                            int &size)
 {
@@ -866,7 +865,7 @@ static u8 *utilLoadRarFile(const char *file,
   if(urarlib_list((void *)file, (ArchiveList_struct *)&rarList)) {
     ArchiveList_struct *p = rarList;
     
-    bool found = false;
+    char found = false;
     while(p) {
       if(accept(p->item.Name)) {
         strcpy(buffer, p->item.Name);
@@ -904,19 +903,19 @@ static u8 *utilLoadRarFile(const char *file,
 #endif
 
 u8 *utilLoad(const char *file,
-             bool (*accept)(const char *),
+             char (*accept)(const char *),
              u8 *data,
-             int &size)
+             int *size)
 {
   if(utilIsZipFile(file)) {
-    return utilLoadFromZip(file, accept, data, size);
+    return utilLoadFromZip(file, accept, data, *size);
   }
   if(utilIsGzipFile(file)) {
-    return utilLoadGzipFile(file, accept, data, size);
+    return utilLoadGzipFile(file, accept, data, *size);
   }
 #if 0
   if(utilIsRarFile(file)) {
-    return utilLoadRarFile(file, accept, data, size);
+    return utilLoadRarFile(file, accept, data, *size);
   }
 #endif
   
@@ -932,20 +931,20 @@ u8 *utilLoad(const char *file,
   fseek(f,0,SEEK_END);
   int fileSize = ftell(f);
   fseek(f,0,SEEK_SET);
-  if(size == 0)
-    size = fileSize;
+  if(*size == 0)
+    *size = fileSize;
 
   if(image == NULL) {
-    image = (u8 *)malloc(utilGetSize(size));
+    image = (u8 *)malloc(utilGetSize(*size));
     if(image == NULL) {
       systemMessage(MSG_OUT_OF_MEMORY, N_("Failed to allocate memory for %s"),
                     "data");
       fclose(f);
       return NULL;
     }
-    size = fileSize;
+    *size = fileSize;
   }
-  int read = fileSize <= size ? fileSize : size;
+  int read = fileSize <= *size ? fileSize : *size;
   int r = fread(image, 1, read, f);
   fclose(f);
 
@@ -957,7 +956,7 @@ u8 *utilLoad(const char *file,
     return NULL;
   }  
 
-  size = fileSize;
+  *size = fileSize;
   
   return image;
 }
@@ -1034,7 +1033,7 @@ void utilGBAFindSave(const u8 *data, const int size)
   u32 *end = (u32 *)(data + size);
   int saveType = 0;
   int flashSize = 0x10000;
-  bool rtcFound = false;
+  char rtcFound = false;
 
   while(p  < end) {
     u32 d = READ32LE(p);

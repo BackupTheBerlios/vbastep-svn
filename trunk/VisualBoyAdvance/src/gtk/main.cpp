@@ -16,9 +16,10 @@
 // along with this program; if not, write to the Free Software Foundation,
 // Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include "window.h"
+#include "../getopt.h"
 #include <limits.h>
 #include <stdlib.h>
-#include "../getopt.h"
 
 #include <list>
 
@@ -29,7 +30,6 @@
 
 #include "images/vba-wm-pixbufs.h"
 
-#include "window.h"
 #include "intl.h"
 
 using Gnome::Glade::Xml;

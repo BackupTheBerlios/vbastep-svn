@@ -1,7 +1,6 @@
-// -*- C++ -*-
 // VisualBoyAdvance - Nintendo Gameboy/GameboyAdvance (TM) emulator.
 // Copyright (C) 1999-2003 Forgotten
-// Copyright (C) 2004 Forgotten and the VBA development team
+// Copyright (C) 2005 Forgotten and the VBA development team
 
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,25 +16,22 @@
 // along with this program; if not, write to the Free Software Foundation,
 // Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#ifndef VBA_FLASH_H
-#define VBA_FLASH_H
+#include <stdarg.h>
+#include <stdio.h>
+#include "GBA.h"
+extern FILE *out;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-extern void flashSaveGame(gzFile gzFile);
-extern void flashReadGame(gzFile gzFile, int version);
-extern u8 flashRead(u32 address);
-extern void flashWrite(u32 address, u8 byte);
-extern void flashDelayedWrite(u32 address, u8 byte);
-extern void flashSaveDecide(u32 address, u8 byte);
-extern void flashReset();
-extern void flashSetSize(int size);
-extern void flashInit();
-#ifdef __cplusplus
+void emulog(const char *defaultMsg, ...)
+{
+  va_list valist;
+  
+  va_start(valist, defaultMsg);
+
+  if(out == NULL) {
+    out = fopen("trace.log","w");
+  }
+
+  vfprintf(out, defaultMsg, valist);
+  
+  va_end(valist);
 }
-#endif
-
-extern u8 flashSaveMemory[0x20000];
-extern int flashSize;
-#endif // VBA_FLASH_H

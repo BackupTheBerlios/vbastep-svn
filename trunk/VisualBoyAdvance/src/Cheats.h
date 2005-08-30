@@ -24,7 +24,7 @@ struct CheatsData {
   int code;
   int size;
   int status;
-  bool enabled;
+  char enabled;
   u32 rawaddress;
   u32 address;
   u32 value;
@@ -33,23 +33,34 @@ struct CheatsData {
   char desc[32];
 };
 
+#ifndef __cplusplus
+typedef struct CheatsData CheatsData;
+#endif 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern void cheatsAdd(const char *,const char *,u32, u32,u32,int,int);
 extern void cheatsAddCheatCode(const char *code, const char *desc);
-extern void cheatsAddGSACode(const char *code, const char *desc, bool v3);
+extern void cheatsAddGSACode(const char *code, const char *desc, char v3);
 extern void cheatsAddCBACode(const char *code, const char *desc);
-extern bool cheatsImportGSACodeFile(const char *name, int game, bool v3);
-extern void cheatsDelete(int number, bool restore);
-extern void cheatsDeleteAll(bool restore);
+extern char cheatsImportGSACodeFile(const char *name, int game, char v3);
+extern void cheatsDelete(int number, char restore);
+extern void cheatsDeleteAll(char restore);
 extern void cheatsEnable(int number);
 extern void cheatsDisable(int number);
 extern void cheatsSaveGame(gzFile file);
 extern void cheatsReadGame(gzFile file);
 extern void cheatsSaveCheatList(const char *file);
-extern bool cheatsLoadCheatList(const char *file);
+extern char cheatsLoadCheatList(const char *file);
 extern void cheatsWriteMemory(u32, u32);
 extern void cheatsWriteHalfWord(u32, u16);
 extern void cheatsWriteByte(u32, u8);
 extern int cheatsCheckKeys(u32,u32);
+#ifdef __cplusplus
+}
+#endif
 extern int cheatsNumber;
+
 extern CheatsData cheatsList[100];
 #endif // GBA_CHEATS_H

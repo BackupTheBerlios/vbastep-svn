@@ -74,45 +74,52 @@ extern memoryMap map[256];
 extern reg_pair reg[45];
 extern u8 biosProtected[4];
 
-extern bool N_FLAG;
-extern bool Z_FLAG;
-extern bool C_FLAG;
-extern bool V_FLAG;
-extern bool armIrqEnable;
-extern bool armState;
+extern char N_FLAG;
+extern char Z_FLAG;
+extern char C_FLAG;
+extern char V_FLAG;
+extern char armIrqEnable;
+extern char armState;
 extern int armMode;
 extern void (*cpuSaveGameFunc)(u32,u8);
 
 extern u8 freezeWorkRAM[0x40000];
 extern u8 freezeInternalRAM[0x8000];
-extern bool CPUReadGSASnapshot(const char *);
-extern bool CPUWriteGSASnapshot(const char *, const char *, const char *, const char *);
-extern bool CPUWriteBatteryFile(const char *);
-extern bool CPUReadBatteryFile(const char *);
-extern bool CPUExportEepromFile(const char *);
-extern bool CPUImportEepromFile(const char *);
-extern bool CPUWritePNGFile(const char *);
-extern bool CPUWriteBMPFile(const char *);
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern char CPUReadGSASnapshot(const char *);
+extern char CPUWriteGSASnapshot(const char *, const char *, const char *, const char *);
+extern char CPUWriteBatteryFile(const char *);
+extern char CPUReadBatteryFile(const char *);
+extern char CPUExportEepromFile(const char *);
+extern char CPUImportEepromFile(const char *);
+extern char CPUWritePNGFile(const char *);
+extern char CPUWriteBMPFile(const char *);
 extern void CPUCleanUp();
 extern void CPUUpdateRender();
-extern bool CPUReadMemState(char *, int);
-extern bool CPUReadState(const char *);
-extern bool CPUWriteMemState(char *, int);
-extern bool CPUWriteState(const char *);
+extern char CPUReadMemState(char *, int);
+extern char CPUReadState(const char *);
+extern char CPUWriteMemState(char *, int);
+extern char CPUWriteState(const char *);
 extern int CPULoadRom(const char *);
-extern void doMirroring(bool);
+extern void doMirroring(char);
 extern void CPUUpdateRegister(u32, u16);
 extern void CPUWriteHalfWord(u32, u16);
 extern void CPUWriteByte(u32, u8);
-extern void CPUInit(const char *,bool);
+extern void CPUInit(const char *,char);
 extern void CPUReset();
 extern void CPULoop(int);
 extern void CPUCheckDMA(int,int);
-extern bool CPUIsGBAImage(const char *);
-extern bool CPUIsZipFile(const char *);
+extern char CPUIsGBAImage(const char *);
+extern char CPUIsZipFile(const char *);
 #ifdef PROFILING
 extern void cpuProfil(char *buffer, int, u32, int);
 extern void cpuEnableProfiling(int hz);
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 extern struct EmulatedSystem GBASystem;

@@ -155,7 +155,7 @@ if test "x$enable_gtk" = xyes; then
 fi
 
 if test "x$enable_dev" = xyes; then
-  CXXFLAGS="$CXXFLAGS -DDEV_VERSION"
+  CXXFLAGS="$CXXFLAGS -DFINAL_VERSION -DBKPT_SUPPORT"
 fi
 
 if test "x$enable_sdl" != xyes && test "x$enable_gtk" != xyes; then

@@ -20,6 +20,7 @@
 #ifndef __VBA_WINDOW_H__
 #define __VBA_WINDOW_H__
 
+#include "../System.h"
 #include <sys/types.h>
 #include <stdarg.h>
 
@@ -34,7 +35,6 @@
 #include <vector>
 #include <list>
 
-#include "../System.h"
 
 #include "configfile.h"
 #include "screenarea.h"

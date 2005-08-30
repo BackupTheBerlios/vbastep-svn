@@ -2664,7 +2664,7 @@ switch(opcode >> 8) {
  unknown_thumb:
 #ifdef DEV_VERSION
    if(systemVerbose & VERBOSE_UNDEFINED)
-     log("Undefined THUMB instruction %04x at %08x\n", opcode, armNextPC-2);
+     emulog("Undefined THUMB instruction %04x at %08x\n", opcode, armNextPC-2);
 #endif
    CPUUndefinedException();
    break;

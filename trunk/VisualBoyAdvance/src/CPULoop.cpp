@@ -16,6 +16,7 @@
 // along with this program; if not, write to the Free Software Foundation,
 // Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#include <stdio.h>
 #include "GBA.h"
 #include "GBAinline.h"
 #include "Globals.h"
@@ -37,6 +38,8 @@
 
 #include "gbaint.h"
 
+static char buffer[1024];
+
 #ifdef PROFILING
 int profilingTicks = 0;
 int profilingTicksReload = 0;
@@ -44,7 +47,6 @@ static char *profilBuffer = NULL;
 static int profilSize = 0;
 static u32 profilLowPC = 0;
 static int profilScale = 0;
-
 
 void cpuProfil(char *buf, int size, u32 lowPC, int scale)
 {

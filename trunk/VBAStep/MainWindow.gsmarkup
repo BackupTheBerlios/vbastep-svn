@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsmarkup>
+
+<gsmarkup>
+
+  <objects>
+    <window id="gbaWindow" delegate="#NSOwner"
+            resizable="no" contentWidth="240" contentHeight="160"
+            releasedWhenClosed="no" title="VBA Step" visible="no" >
+      <view id="display" instanceOf="GbaScreen" width="240" height="160" />
+    </window>
+    <panel id="layers" title="Layers"
+           visible="no" releasedWhenClosed="no" resizable="yes" >
+      <box title="Hide Layers" hborder="12">
+        <vbox>
+          <button type="switch" title="BG 0" halign="left" tag="0"
+                  target="#NSOwner" action="toggleLayer:" state="1" />
+          <button type="switch" title="BG 1" halign="left" tag="1"
+                  target="#NSOwner" action="toggleLayer:" state="1"  />
+          <button type="switch" title="BG 2" halign="left" tag="2"
+                  target="#NSOwner" action="toggleLayer:" state="1"  />
+          <button type="switch" title="BG 3" halign="left" tag="3"
+                  target="#NSOwner" action="toggleLayer:" state="1"  />
+          <button type="switch" title="Sprites" halign="left" tag="4"
+                  target="#NSOwner" action="toggleLayer:" state="1"  />
+          <button type="switch" title="Window 0" halign="left" tag="5"
+                  target="#NSOwner" action="toggleLayer:" state="1"  />
+          <button type="switch" title="Window 1" halign="left" tag="6"
+                  target="#NSOwner" action="toggleLayer:" state="1"  />
+          <button type="switch" title="Sprite Window" halign="left" tag="7"
+                  target="#NSOwner" action="toggleLayer:" state="1"  />
+        </vbox>
+      </box>
+    </panel>
+    <hbox id="selectPortView">
+      <label>Listen on port: </label>
+      <textField id="selectPortField">55555</textField>
+    </hbox>
+  </objects>
+
+  <connectors>
+    <outlet source="#NSOwner" key="display" target="#display" />
+    <outlet source="#NSOwner" key="gbaWindow" target="#gbaWindow" />
+    <outlet source="#NSOwner" key="layersWindow" target="#layers" />
+    <outlet source="#NSOwner" key="selectPortView" target="#selectPortView" />
+    <outlet source="#NSOwner" key="selectPortField" target="#selectPortField" />
+  </connectors>
+</gsmarkup>

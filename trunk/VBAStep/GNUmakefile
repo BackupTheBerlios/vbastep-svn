@@ -18,7 +18,7 @@ VBAStep_RESOURCE_FILES = \
 
 ADDITIONAL_TOOL_LIBS +=  -lgba -lprof -lpng -lz
 ADDITIONAL_LIB_DIRS += -L.
-ADDITIONAL_INCLUDE_DIRS += -I/Users/ribrdb/Documents/gba/vba/src
+ADDITIONAL_INCLUDE_DIRS += -I../VisualBoyAdvance/src
 
 ifeq ($(FOUNDATION_LIB), apple)
 #  ADDITIONAL_INCLUDE_DIRS += -framework Renaissance

@@ -75,7 +75,7 @@ void systemDrawScreen()
 
 char systemReadJoypads()
 {
-  return true;
+  return YES;
 }
 
 u32 systemReadJoypad(int ignored)
@@ -116,7 +116,7 @@ void systemWriteDataToSoundBuffer()
 
 char systemSoundInit()
 {
-  return false;
+  return NO;
 }
 
 void systemSoundShutdown()
@@ -168,12 +168,12 @@ void systemScreenMessage(const char * _csMsg)
 
 char systemCanChangeSoundQuality()
 {
-  return true;
+  return YES;
 }
 
 char systemPauseOnFrame()
 {
-  return false;
+  return NO;
 }
 
 void systemGbBorderOn()
@@ -203,8 +203,8 @@ void initSystem() {
   systemVerbose = 0;
   systemSaveUpdateCounter = SYSTEM_SAVE_NOT_UPDATED;
   systemFrameSkip = 0;
-  systemSoundOn = false;
-  //soundOffFlag = true;
+  systemSoundOn = NO;
+  //soundOffFlag = YES;
 
   systemRenderedFrames = 0;
   systemFPS = 0;

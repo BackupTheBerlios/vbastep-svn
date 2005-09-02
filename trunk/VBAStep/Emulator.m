@@ -16,6 +16,7 @@
 // Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #import "Emulator.h"
+#import "MainController.h"
 #include <string.h>
 #include "GBA.h"
 
@@ -35,6 +36,34 @@ void debuggerSignal(int a, int b)
 
 void debuggerOutput(char *a, u32 b)
 {
+  NSString *str;
+  BOOL frees = NO;
+  if (!a) {
+    int size = 256;
+    char *buf;
+    char c = debuggerReadByte(b);
+    b += 1;
+    a = malloc(size);
+    buf = a;
+    while (c) {
+      if ( buf - a >= size - 1 ) {
+        int ofs = buf - a;
+        size *= 2;
+        a = realloc(a, size);
+        buf = a + ofs;
+      }
+      *(buf++) = c;
+      c = debuggerReadByte(b);
+      b += 1;
+    }
+    *buf = 0;
+    frees = YES;
+  }
+  str = [[NSString alloc] initWithCString:a];
+  [MainController appendToLog:str];
+  [str release];
+  if (frees)
+    free(a);
 }
 
 void debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value, 
@@ -77,7 +106,6 @@ extern char cpuBreakLoop;
 - (NSImageRep*) getImageRep
 {
   NSBitmapImageRep *rep = [NSBitmapImageRep alloc];
-  NSImage *image;
   unsigned char *planes[2] = {((unsigned char*)pix) + 4*241, nil };
   //memset(pix, 0xFFFFFFFF, 4*241*162);
   rep = [rep initWithBitmapDataPlanes:planes

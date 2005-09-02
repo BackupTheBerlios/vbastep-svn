@@ -25,6 +25,7 @@ void initSystem();
 static MainController *controllerInstance = nil;
 static Emulator *emulator = nil;
 static NSImageRep *screenImage = nil;
+static int systemSpeed;
 
 @implementation MainController
 
@@ -64,7 +65,7 @@ static NSImageRep *screenImage = nil;
   [display setNeedsDisplay:YES];
 }
 
-- (void)open:(id)sender {
+- (void)openDocument:(id)sender {
   NSOpenPanel *panel = [NSOpenPanel openPanel];
   if ([panel runModalForTypes:[NSArray arrayWithObjects:@"gba",nil]]
       == NSOKButton) {
@@ -75,10 +76,20 @@ static NSImageRep *screenImage = nil;
   }
 }
 
+- (void)updateTitle:(int)speed
+{
+  [gbaWindow setTitle:[NSString stringWithFormat:@"VBA Step (%d%%)",
+                                systemSpeed]];
+}
+
 + (void)displaySpeed:(int)speed
 {
-  [controllerInstance->gbaWindow
-        setTitle:[NSString stringWithFormat:@"VBAStep (%d%%)",speed]];
+  // Could have this call setTitle on the window,
+  // but have to make sure string is correctly retained
+  systemSpeed = speed;
+  [controllerInstance performSelectorOnMainThread:@selector(updateTitle:)
+                      withObject:nil//(id)speed
+                      waitUntilDone:NO];
 }
 
 
@@ -133,6 +144,26 @@ static NSImageRep *screenImage = nil;
 - (void) applicationWillTerminate:(NSNotification*)not
 {
   [emulator shutDown];
+}
+
+- (void)logMessage:(NSString *)msg
+{
+  NSAttributedString *amsg = [[NSAttributedString alloc] initWithString:msg];
+  [[logView textStorage] appendAttributedString: amsg ];
+  [amsg release];
+  [msg release];
+}
+
++ (void)appendToLog:(NSString *)str
+{
+  [controllerInstance performSelectorOnMainThread:@selector(logMessage:)
+                      withObject:[str retain]
+                      waitUntilDone:NO];
+}
+
+- (void)showLog:(id)sender
+{
+  [logWindow orderFront:self];
 }
 
 @end

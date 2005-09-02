@@ -221,3 +221,24 @@ void initSystem() {
   //remoteSetProtocol(1);
   //remoteInit();
 }
+
+void emulog(const char *defaultMsg, ...)
+{
+  va_list valist;
+  char *buf;
+  NSString *str;
+
+  va_start(valist, defaultMsg);
+  
+  vasprintf(&buf, defaultMsg, valist);
+
+  va_end(valist);
+  if (buf) {
+    str = [[NSString alloc]
+            initWithCStringNoCopy:buf
+            length:strlen(buf)
+            freeWhenDone: YES];
+    [MainController appendToLog:str];
+    [str release];
+  }
+}

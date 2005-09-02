@@ -17,24 +17,10 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#import <Renaissance/Renaissance.h>
 
 #include "MainController.h"
 
 int main (int argc, const char **argv, char** env)
 {
-  CREATE_AUTORELEASE_POOL (pool);
-
-  [NSApplication sharedApplication];
-  [NSApp setDelegate: [MainController new]];
-
-#ifdef GNUSTEP
-  [NSBundle loadGSMarkupNamed: @"MainMenu-GNUstep"  owner: [NSApp delegate]];
-#else
-  [NSBundle loadGSMarkupNamed: @"MainMenu-OSX"  owner: [NSApp delegate]];
-#endif
-
-  RELEASE (pool);
-    
   return NSApplicationMain (argc, argv);
 }

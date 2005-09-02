@@ -1,4 +1,4 @@
-// VBAStep - Nintendo Gameboy Advance Debugger
+// VBAStep - Nintendo Gameboy Advance Debugger -*- objc -*-
 // Copyright (C) 2005 Rib Rdb
 
 // This program is free software; you can redistribute it and/or modify
@@ -30,11 +30,14 @@
   IBOutlet NSWindow *layersWindow;
   IBOutlet NSView *selectPortView;
   IBOutlet NSTextField *selectPortField;
+  IBOutlet NSWindow *logWindow;
+  IBOutlet NSTextView *logView;
 }
 
 - (void)applicationWillFinishLaunching: (NSNotification *)aNotification;
 + (void)refreshDisplays;
 + (void)displaySpeed:(int)speed;
++ (void)appendToLog:(NSString*)str;
 @end
 
 #endif /* _APPLICATION_MAIN_CONTROLLER_H_ */

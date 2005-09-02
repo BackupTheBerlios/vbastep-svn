@@ -1,0 +1,51 @@
+{
+    IBClasses = (
+        {CLASS = ColorTile; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = Emulator; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {myAction = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = GbaScreen; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {connectToGdb = id; toggleLayer = id; }; 
+            CLASS = MainController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                display = GbaScreen; 
+                gbaWindow = NSWindow; 
+                layersWindow = NSWindow; 
+                logView = NSTextView; 
+                logWindow = NSWindow; 
+                selectPortField = NSTextField; 
+                selectPortView = NSView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            ACTIONS = {colorSelected = id; editTile = id; selectTile = id; }; 
+            CLASS = PaletteController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                address = id; 
+                bgGrid = TileGrid; 
+                colorWell = NSColorWell; 
+                html = id; 
+                spriteGrid = TileGrid; 
+                tile = ColorTile; 
+                value = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = TileGrid; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; selectedTile = id; standardTile = id; target = id; }; 
+            SUPERCLASS = NSView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

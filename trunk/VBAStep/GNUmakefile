@@ -8,12 +8,14 @@ VBAStep_OBJC_FILES = \
 	MainController.m \
 	System.m Emulator.m \
 	GbaScreen.m \
+	TileGrid.m \
+	ColorTile.m \
+	PaletteController.m \
 
+VBAStep_MAIN_MODEL_FILE = MainMenu.nib
 
 VBAStep_RESOURCE_FILES = \
-	 MainMenu-GNUstep.gsmarkup \
-	 MainMenu-OSX.gsmarkup \
-	 MainWindow.gsmarkup \
+	 MainMenu.nib
 
 
 ADDITIONAL_TOOL_LIBS +=  -lgba -lprof -lpng -lz

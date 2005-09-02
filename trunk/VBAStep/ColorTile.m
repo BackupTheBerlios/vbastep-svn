@@ -19,12 +19,6 @@
 
 @implementation ColorTile
 
-- (id)init {
-  self = [super init];
-  size = NSMakeSize(16,9);
-  return self;
-}
-
 - (void)setColor:(NSColor*)aColor {
   color = aColor;
 }

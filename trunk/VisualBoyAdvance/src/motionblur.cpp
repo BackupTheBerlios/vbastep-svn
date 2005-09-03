@@ -53,7 +53,7 @@ void MotionBlur(u8 *srcPtr, u32 srcPitch, u8 *deltaPtr,
         u32 colorA, product, colorB;
         
         *(xP - 2) = currentPixel;
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
         colorA = currentPixel >> 16;
         colorB = currentDelta >> 16;
 #else
@@ -68,7 +68,7 @@ void MotionBlur(u8 *srcPtr, u32 srcPitch, u8 *deltaPtr,
         *(dP) = product | product << 16;
         *(nL) = product | product << 16;
 
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
         colorA = (currentPixel & 0xffff);
         colorB = (currentDelta & 0xffff);
 #else
@@ -85,7 +85,7 @@ void MotionBlur(u8 *srcPtr, u32 srcPitch, u8 *deltaPtr,
         u32 colorA, product;
         
         *(xP - 2) = currentPixel;
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
         colorA = currentPixel >> 16;
 #else
         colorA = currentPixel & 0xffff;
@@ -95,7 +95,7 @@ void MotionBlur(u8 *srcPtr, u32 srcPitch, u8 *deltaPtr,
         
         *(dP) = product | product << 16;
         *(nL) = product | product << 16;
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
         colorA = (currentPixel & 0xffff);
 #else
         colorA = currentPixel >> 16;

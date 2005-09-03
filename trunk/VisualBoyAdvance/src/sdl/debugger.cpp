@@ -36,24 +36,6 @@ extern void sdlReadState(int num);
 
 extern struct EmulatedSystem emulator;
 
-#define debuggerReadMemory(addr) \
-  READ32LE((&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]))
-
-#define debuggerReadHalfWord(addr) \
-  READ16LE((&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]))
-
-#define debuggerReadByte(addr) \
-  map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]
-
-#define debuggerWriteMemory(addr, value) \
-  WRITE32LE(&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask], value)
-
-#define debuggerWriteHalfWord(addr, value) \
-  WRITE16LE(&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask], value)
-
-#define debuggerWriteByte(addr, value) \
-  map[(addr)>>24].address[(addr) & map[(addr)>>24].mask] = (value)
-
 struct breakpointInfo {
   u32 address;
   u32 value;

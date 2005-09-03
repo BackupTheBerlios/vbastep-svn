@@ -52,7 +52,7 @@ void Pixelate(u8 *srcPtr, u32 srcPitch, u8 *deltaPtr,
         u32 colorA, colorB, product;
         
         *(xP - 2) = currentPixel;
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
         colorA = currentPixel >> 16;
         colorB = currentPixel & 0xffff;
 #else
@@ -61,7 +61,7 @@ void Pixelate(u8 *srcPtr, u32 srcPitch, u8 *deltaPtr,
 #endif
         product = (((colorA & colorMask) >> 1) & colorMask) >> 1;
         
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
         *(nL) = (product << 16) | (product);
         *(dP) = (colorA << 16) | product;
 #else
@@ -69,13 +69,13 @@ void Pixelate(u8 *srcPtr, u32 srcPitch, u8 *deltaPtr,
         *(dP) = colorA | (product << 16);
 #endif
         
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
         colorA = nextPixel >> 16;
 #else
         colorA = nextPixel & 0xffff;
 #endif
         product = (((colorB & colorMask) >> 1) & colorMask) >> 1;
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
         *(nL + 1) = (product << 16) | (product);
         *(dP + 1) = (colorB << 16) | (product);
 #else

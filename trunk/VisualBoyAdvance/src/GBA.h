@@ -39,7 +39,7 @@ typedef struct {
 
 typedef union {
   struct {
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
     u8 B3;
     u8 B2;
     u8 B1;
@@ -52,7 +52,7 @@ typedef union {
 #endif
   } B;
   struct {
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
     u16 W1;
     u16 W0;
 #else
@@ -60,7 +60,7 @@ typedef union {
     u16 W1;
 #endif
   } W;
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
   volatile u32 I;
 #else
 	u32 I;
@@ -146,6 +146,26 @@ extern struct EmulatedSystem GBASystem;
 #define R13_FIQ  42
 #define R14_FIQ  43
 #define SPSR_FIQ 44
+
+#define debuggerReadMemory(addr) \
+  READ32LE((&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]))
+
+#define debuggerReadHalfWord(addr) \
+  READ16LE((&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]))
+
+#define debuggerReadByte(addr) \
+  map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]
+
+#define debuggerWriteMemory(addr, value) \
+  WRITE32LE(&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask], value)
+
+#define debuggerWriteHalfWord(addr, value) \
+  WRITE16LE(&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask], value)
+
+#define debuggerWriteByte(addr, value) \
+  map[(addr)>>24].address[(addr) & map[(addr)>>24].mask] = (value)
+
+
 
 #include "Cheats.h"
 #include "Globals.h"

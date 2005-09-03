@@ -35,7 +35,7 @@ void Simple2x(u8 *srcPtr, u32 srcPitch, u8 * /* deltaPtr */,
     currentPixel = *bP++;
     
     do {
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
       u32 color = currentPixel >> 16;
 #else
       u32 color = currentPixel & 0xffff;
@@ -46,7 +46,7 @@ void Simple2x(u8 *srcPtr, u32 srcPitch, u8 * /* deltaPtr */,
       *(dP) = color;
       *(nL) = color;
 
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
       color = currentPixel & 0xffff;
 #else
       color = currentPixel >> 16;

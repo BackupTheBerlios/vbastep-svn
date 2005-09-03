@@ -42,7 +42,7 @@ void Scanlines (u8 *srcPtr, u32 srcPitch, u8 *,
       nextPixel = *bP++;
       u32 colorA, colorB;
       
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
       colorA = currentPixel >> 16;
       colorB = currentPixel & 0xffff;
 #else
@@ -53,7 +53,7 @@ void Scanlines (u8 *srcPtr, u32 srcPitch, u8 *,
       *(dP) = colorA | colorA<<16;
       *(nL) = 0;
 
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
       colorA = nextPixel >> 16;
 #else
       colorA = nextPixel & 0xffff;
@@ -146,7 +146,7 @@ void ScanlinesTV(u8 *srcPtr, u32 srcPitch, u8 * /* deltaPtr */,
       
       u32 colorA, colorB;
 
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
       colorA = currentPixel >> 16;
       colorB = currentPixel & 0xFFFF;
 #else

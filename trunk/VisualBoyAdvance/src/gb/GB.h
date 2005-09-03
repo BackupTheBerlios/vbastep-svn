@@ -27,7 +27,7 @@
 
 typedef union {
   struct {
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
     u8 B1, B0;
 #else
     u8 B0,B1;

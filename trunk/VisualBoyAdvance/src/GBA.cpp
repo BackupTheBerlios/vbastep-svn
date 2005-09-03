@@ -155,7 +155,7 @@ u8 memoryWaitSeq32[16] =
 
 u8 biosProtected[4];
 
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
 char cpuBiosSwapped = false;
 #endif
 
@@ -1403,7 +1403,7 @@ void CPUUpdateFlags()
   CPUUpdateFlags(true);
 }
 
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
 static void CPUSwap(volatile u32 *a, volatile u32 *b)
 {
   volatile u32 c = *b;
@@ -2881,7 +2881,7 @@ u8 cpuLowestBitSet[256];
 
 void CPUInit(const char *biosFileName, char useBiosFile)
 {
-#ifdef WORDS_BIGENDIAN
+#if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
   if(!cpuBiosSwapped) {
     for(unsigned int i = 0; i < sizeof(myROM)/4; i++) {
       WRITE32LE(&myROM[i], myROM[i]);

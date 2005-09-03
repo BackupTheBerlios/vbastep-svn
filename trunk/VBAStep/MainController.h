@@ -32,6 +32,8 @@
   IBOutlet NSTextField *selectPortField;
   IBOutlet NSWindow *logWindow;
   IBOutlet NSTextView *logView;
+  IBOutlet NSView *spritePalView;
+  IBOutlet NSView *bgPalView;
 }
 
 - (void)applicationWillFinishLaunching: (NSNotification *)aNotification;

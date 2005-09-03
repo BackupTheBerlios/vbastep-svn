@@ -49,7 +49,7 @@
 - (int)cols;
 - (void)setCols:(int)_cols;
 - (int)tileAtPoint:(NSPoint)point;
-- (int)selection;
+- (int)getSelection;
 - (void)setSelection:(int)tileno;
 - (NSToolTipTag)addToolTipForTile:(int)tileno owner:(id)owner userData:(void*)data;
 - (void)setTileNeedsDisplay:(int)tileno;

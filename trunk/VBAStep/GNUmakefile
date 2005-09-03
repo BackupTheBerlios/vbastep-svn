@@ -15,19 +15,13 @@ VBAStep_OBJC_FILES = \
 VBAStep_MAIN_MODEL_FILE = MainMenu.nib
 
 VBAStep_RESOURCE_FILES = \
-	 MainMenu.nib
+	 MainMenu.nib \
+	 MainMenu.gmodel \
 
 
 ADDITIONAL_TOOL_LIBS +=  -lgba -lprof -lpng -lz
 ADDITIONAL_LIB_DIRS += -L.
 ADDITIONAL_INCLUDE_DIRS += -I../VisualBoyAdvance/src
-
-ifeq ($(FOUNDATION_LIB), apple)
-#  ADDITIONAL_INCLUDE_DIRS += -framework Renaissance
-  ADDITIONAL_GUI_LIBS += -framework Renaissance
-else
-  ADDITIONAL_GUI_LIBS += -lRenaissance
-endif
 
 LD = g++
 

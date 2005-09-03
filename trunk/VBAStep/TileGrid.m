@@ -125,12 +125,19 @@
   }
 }
 
-- (int)selection {
+- (int)getSelection {
   return selection;
 }
 
 - (void)setSelection:(int)tileno {
+  if (selection == tileno)
+    return;
+
+  [self setTileNeedsDisplay:selection];
+  [self setTileNeedsDisplay:tileno];
+
   selection = tileno;
+  
   if ([target respondsToSelector:action])
     [target performSelector:action withObject:self];
 }
@@ -214,10 +221,7 @@
   if (tileno == -1)
     return;
   if (selection != tileno) {
-    int oldsel = selection;
     [self setSelection: tileno];
-    [self setTileNeedsDisplay:oldsel];
-    [self setTileNeedsDisplay:selection];
   }
   if ([theEvent clickCount] == 2
       && [target respondsToSelector:doubleAction]) {

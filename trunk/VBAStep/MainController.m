@@ -17,7 +17,6 @@
 
 #import "MainController.h"
 #import "Emulator.h"
-#import <Renaissance/Renaissance.h>
 
 #include "GBA.h"
 
@@ -32,7 +31,6 @@ static int systemSpeed;
 - (void)applicationWillFinishLaunching: (NSNotification *)aNotification
 {
   controllerInstance = self;
-  [NSBundle loadGSMarkupNamed: @"MainWindow"  owner: self];
   initSystem();
 }
 
@@ -63,6 +61,8 @@ static int systemSpeed;
 
 - (void)updateDisplay:(id)sender {
   [display setNeedsDisplay:YES];
+  [spritePalView setNeedsDisplay:YES];
+  [bgPalView setNeedsDisplay:YES];
 }
 
 - (void)openDocument:(id)sender {

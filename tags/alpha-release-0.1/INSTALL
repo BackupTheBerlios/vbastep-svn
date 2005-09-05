@@ -1,0 +1,6 @@
+Unfortunately VBA makes this somewhat complicated at the moment. First
+go into the VisualBoyAdvance folder and configure. Then make in
+src/prof, and copy libprof.a into the VBAStep folder. Next go into
+VisualBoyAdvance/src/gtk and do "make libgba.a". Copy libgba.a into
+the VBAStep folder. You may need to ranlib these after copying
+them. Finally, run make in the VBAStep folder.

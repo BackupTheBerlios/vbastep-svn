@@ -52,7 +52,8 @@ extern "C" void debuggerMain();
 extern "C" void debuggerSignal(int,int);
 #endif
 
-extern "C" void remoteInit();
+extern "C" int remoteInit();
+extern "C" bool remoteTcpConnect(int);
 extern "C" void remoteCleanUp();
 extern "C" void remoteStubMain();
 extern "C" void remoteStubSignal(int,int);
@@ -67,10 +68,11 @@ int remoteSocket = -1;
 int remoteListenSocket = -1;
 bool remoteConnected = false;
 bool remoteResumed = false;
+static sockaddr_in remote_addr;
 
 int (*remoteSendFnc)(char *, int) = NULL;
 int (*remoteRecvFnc)(char *, int) = NULL;
-bool (*remoteInitFnc)() = NULL;
+int (*remoteInitFnc)() = NULL;
 void (*remoteCleanUpFnc)() = NULL;
 
 #ifndef SDL
@@ -91,7 +93,7 @@ int remoteTcpRecv(char *data, int len)
   return recv(remoteSocket, data, len, 0);
 }
 
-bool remoteTcpInit()
+int remoteTcpInit()
 {
   if(remoteSocket == -1) {
 #ifdef WIN32
@@ -103,8 +105,8 @@ bool remoteTcpInit()
     remoteListenSocket = s;
     
     if(s < 0) {
-      fprintf(stderr,"Error opening socket\n");
-      exit(-1);
+      emulog("Error opening socket\n");
+      return -1;
     }
     int tmp = 1;
     setsockopt (s, SOL_SOCKET, SO_REUSEADDR, (char *) &tmp, sizeof (tmp));    
@@ -115,50 +117,77 @@ bool remoteTcpInit()
     //    hostent *ent = gethostbyname(hostname);
     //    unsigned long a = *((unsigned long *)ent->h_addr);
     
-    sockaddr_in addr;
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(remotePort);
-    addr.sin_addr.s_addr = htonl(0);
+    remote_addr.sin_family = AF_INET;
+    remote_addr.sin_port = htons(remotePort);
+    remote_addr.sin_addr.s_addr = htonl(0);
     int count = 0;
     while(count < 3) {
-      if(bind(s, (sockaddr *)&addr, sizeof(addr))) {
-        addr.sin_port = htons(ntohs(addr.sin_port)+1);
+      if(bind(s, (sockaddr *)&remote_addr, sizeof(remote_addr))) {
+        remote_addr.sin_port = htons(ntohs(remote_addr.sin_port)+1);
       } else
         break;
     }
     if(count == 3) {
-      fprintf(stderr,"Error binding \n");
-      exit(-1);
+      emulog("Error binding \n");
+      return -1;
     }
     
-    fprintf(stderr,"Listening for a connection at port %d\n",
-            ntohs(addr.sin_port));
+    emulog("Listening for a connection at port %d\n",
+            ntohs(remote_addr.sin_port));
     
     if(listen(s, 1)) {
-      fprintf(stderr, "Error listening\n");
-      exit(-1);
+      emulog("Error listening\n");
+      return -1;
     }
-    socklen_t len = sizeof(addr);
+    return     ntohs(remote_addr.sin_port);
+
+  }
+}
+
+bool remoteTcpConnect(int cancelSocket) {
+  if (remoteSocket == -1) {
+    socklen_t len = sizeof(remote_addr);
+    fd_set readfds, exfds;
+    int nfds = cancelSocket + 1;
+
+    if (remoteListenSocket > cancelSocket)
+      nfds = remoteListenSocket + 1;
+    
+    FD_ZERO(&readfds);
+    FD_SET(cancelSocket, &readfds);
+    FD_SET(remoteListenSocket, &readfds);
+    FD_COPY(&readfds, &exfds);
 
 #ifdef WIN32
     int flag = 0;    
     ioctlsocket(s, FIONBIO, (unsigned long *)&flag);
 #endif // WIN32
-    int s2 = accept(s, (sockaddr *)&addr, &len);
+
+    // block until connection or canceled
+    if (select(nfds, &readfds, NULL, &exfds, NULL) < 1) {
+      return false;
+    }
+    
+    if (!FD_ISSET(remoteListenSocket, &readfds)) {
+      return false;
+    }
+
+    int s2 = accept(remoteListenSocket, (sockaddr *)&remote_addr, &len);
     if(s2 > 0) {
-      fprintf(stderr, "Got a connection from %s %d\n",
-              inet_ntoa((in_addr)addr.sin_addr),
-              ntohs(addr.sin_port));
+      emulog("Got a connection from %s %d\n",
+              inet_ntoa((in_addr)remote_addr.sin_addr),
+              ntohs(remote_addr.sin_port));
     } else {
 #ifdef WIN32
       int error = WSAGetLastError();
 #endif // WIN32
+      return false;
     }
     char dummy;
     recv(s2, &dummy, 1, 0);
     if(dummy != '+') {
-      fprintf(stderr, "ACK not received\n");
-      exit(-1);
+      emulog("ACK not received\n");
+      return false;
     }
     remoteSocket = s2;
     //    close(s);
@@ -228,10 +257,10 @@ void remoteSetProtocol(int p)
   }
 }
 
-void remoteInit()
+int remoteInit()
 {
   if(remoteInitFnc)
-    remoteInitFnc();
+    return remoteInitFnc();
 }
 
 void remotePutPacket(char *packet)

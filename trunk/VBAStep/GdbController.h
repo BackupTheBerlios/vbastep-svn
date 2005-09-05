@@ -15,34 +15,23 @@
 // along with this program; if not, write to the Free Software Foundation,
 // Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#ifndef _APPLICATION_MAIN_CONTROLLER_H_
-#define _APPLICATION_MAIN_CONTROLLER_H_
-
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "MainController.h"
 
-#import "GbaScreen.h"
-#import "Emulator.h"
-
-@interface MainController: NSObject
+@interface GdbController : NSObject
 {
-  IBOutlet GbaScreen *display;
-  IBOutlet NSWindow *gbaWindow;
-  IBOutlet NSWindow *layersWindow;
-  IBOutlet NSWindow *logWindow;
-  IBOutlet NSTextView *logView;
-  IBOutlet NSView *spritePalView;
-  IBOutlet NSView *bgPalView;
+    IBOutlet NSWindow *connectDialog;
+    IBOutlet MainController *mainController;
+    IBOutlet NSTextField *portField;
+    IBOutlet NSTextField *portField2;
+    IBOutlet NSTextField *portLabel;
+    IBOutlet NSView *portView;
+    IBOutlet NSProgressIndicator *progressBar;
+    IBOutlet NSWindow *waitDialog;
+	BOOL canceled;
 }
-
-- (void)applicationWillFinishLaunching: (NSNotification *)aNotification;
-- (Emulator*)emulator;
-- (void)startEmu;
-- (void)loadRom:(NSString*)filename;
-
-+ (void)refreshDisplays;
-+ (void)displaySpeed:(int)speed;
-+ (void)appendToLog:(NSString*)str;
+- (IBAction)cancelConnection:(id)sender;
+- (IBAction)okPressed:(id)sender;
+- (IBAction)showConnectDialog:(id)sender;
 @end
-
-#endif /* _APPLICATION_MAIN_CONTROLLER_H_ */

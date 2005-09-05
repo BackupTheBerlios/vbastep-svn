@@ -10,7 +10,23 @@
         }, 
         {CLASS = GbaScreen; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
-            ACTIONS = {connectToGdb = id; toggleLayer = id; }; 
+            ACTIONS = {cancelConnection = id; okPressed = id; showConnectDialog = id; }; 
+            CLASS = GdbController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                connectDialog = NSWindow; 
+                mainController = MainController; 
+                portField = NSTextField; 
+                portField2 = NSTextField; 
+                portLabel = NSTextField; 
+                portView = NSView; 
+                progressBar = NSProgressIndicator; 
+                waitDialog = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {toggleLayer = id; }; 
             CLASS = MainController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -20,8 +36,6 @@
                 layersWindow = NSWindow; 
                 logView = NSTextView; 
                 logWindow = NSWindow; 
-                selectPortField = NSTextField; 
-                selectPortView = NSView; 
                 spritePalView = NSView; 
             }; 
             SUPERCLASS = NSObject; 

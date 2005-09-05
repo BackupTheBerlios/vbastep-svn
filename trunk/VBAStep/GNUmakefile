@@ -11,6 +11,7 @@ VBAStep_OBJC_FILES = \
 	TileGrid.m \
 	ColorTile.m \
 	PaletteController.m \
+	GdbController.m \
 
 VBAStep_MAIN_MODEL_FILE = MainMenu.nib
 

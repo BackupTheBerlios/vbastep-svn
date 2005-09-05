@@ -116,31 +116,6 @@ static int systemSpeed;
   [layersWindow orderFront:self];
 }
 
-- (void)connectToGdb:(id)sender
-{
-  NSOpenPanel *panel = [NSOpenPanel openPanel];
-  [gbaWindow orderOut:self];
-  [panel setAccessoryView:selectPortView];
-  if ([panel runModalForTypes:[NSArray arrayWithObjects:@"gba",nil]]
-      == NSOKButton) {
-    int port = [selectPortField intValue];
-    NSArray *filenames = [panel filenames];
-    NSString *rom = [filenames objectAtIndex:0];
-
-    [self loadRom:rom];
-
-    remoteSetProtocol(0);
-    remoteSetPort(port);
-    remoteInit();
-
-    debugger = YES;
-
-    [emulator setRemoteDebugger: YES];
-    [gbaWindow makeKeyAndOrderFront:self];
-    [emulator startRunning];
-  }
-}
-
 - (void) applicationWillTerminate:(NSNotification*)not
 {
   [emulator shutDown];
@@ -166,5 +141,13 @@ static int systemSpeed;
   [logWindow orderFront:self];
 }
 
+- (Emulator*)emulator {
+  return emulator;
+}
+
+- (void) startEmu {
+    [gbaWindow makeKeyAndOrderFront:self];
+    [emulator startRunning];
+}
 @end
 

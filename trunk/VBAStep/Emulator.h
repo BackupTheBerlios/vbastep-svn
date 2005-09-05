@@ -1,4 +1,4 @@
-// VBAStep - Nintendo Gameboy Advance Debugger
+// VBAStep - Nintendo Gameboy Advance Debugger -*- objc -*-
 // Copyright (C) 2005 Rib Rdb
 
 // This program is free software; you can redistribute it and/or modify
@@ -34,6 +34,17 @@
 - (void)startRunning;
 - (void)shutDown ;
 - (void)setRemoteDebugger:(BOOL)hasDebugger;
+- (void)pause;
+- (void)resume;
+- (int)remoteInit:(int)port;
+- (void)remoteConnect:(id)sender;
+- (void)cancelRemoteConnect;
+- (BOOL)emulating;
+- (BOOL)running; // emulating and not paused
 @end
 
 extern char debugger;
+
+@interface NSObject ( RemoteConnectListener )
+- (void)remoteConnectSucceeded:(BOOL)b;
+@end

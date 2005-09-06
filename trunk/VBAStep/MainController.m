@@ -61,8 +61,7 @@ static int systemSpeed;
 
 - (void)updateDisplay:(id)sender {
   [display setNeedsDisplay:YES];
-  [spritePalView setNeedsDisplay:YES];
-  [bgPalView setNeedsDisplay:YES];
+  [memLogger updateWindows];
 }
 
 - (void)openDocument:(id)sender {

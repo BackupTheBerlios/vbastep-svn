@@ -15,6 +15,7 @@
 			<string>Object  144</string>
 			<string>Object  145</string>
 			<string>Object  146</string>
+			<string>Object  148</string>
 		</array>
 		<key>isa</key>
 		<string>NSMutableArray</string>
@@ -4281,44 +4282,50 @@
 	</dict>
 	<key>Object  148</key>
 	<dict>
+		<key>className</key>
+		<string>MemLogger</string>
+		<key>isa</key>
+		<string>IMCustomObject</string>
+	</dict>
+	<key>Object  149</key>
+	<dict>
 		<key>elements</key>
 		<array>
-			<string>Object  149</string>
-			<string>Object  151</string>
-			<string>Object  153</string>
-			<string>Object  155</string>
-			<string>Object  157</string>
-			<string>Object  159</string>
-			<string>Object  161</string>
-			<string>Object  163</string>
-			<string>Object  165</string>
-			<string>Object  167</string>
-			<string>Object  169</string>
-			<string>Object  171</string>
-			<string>Object  173</string>
-			<string>Object  175</string>
-			<string>Object  177</string>
-			<string>Object  179</string>
-			<string>Object  181</string>
-			<string>Object  183</string>
-			<string>Object  185</string>
-			<string>Object  187</string>
-			<string>Object  189</string>
-			<string>Object  191</string>
-			<string>Object  193</string>
-			<string>Object  195</string>
-			<string>Object  197</string>
+			<string>Object  150</string>
+			<string>Object  152</string>
+			<string>Object  154</string>
+			<string>Object  156</string>
+			<string>Object  158</string>
+			<string>Object  160</string>
+			<string>Object  162</string>
+			<string>Object  164</string>
+			<string>Object  166</string>
+			<string>Object  168</string>
+			<string>Object  170</string>
+			<string>Object  172</string>
+			<string>Object  174</string>
+			<string>Object  176</string>
+			<string>Object  178</string>
+			<string>Object  180</string>
+			<string>Object  182</string>
+			<string>Object  184</string>
+			<string>Object  186</string>
+			<string>Object  188</string>
+			<string>Object  190</string>
+			<string>Object  192</string>
+			<string>Object  194</string>
+			<string>Object  196</string>
 			<string>Object  198</string>
-			<string>Object  200</string>
-			<string>Object  202</string>
+			<string>Object  199</string>
+			<string>Object  201</string>
 			<string>Object  203</string>
 			<string>Object  204</string>
-			<string>Object  206</string>
+			<string>Object  205</string>
 			<string>Object  207</string>
 			<string>Object  208</string>
 			<string>Object  209</string>
-			<string>Object  211</string>
-			<string>Object  213</string>
+			<string>Object  210</string>
+			<string>Object  212</string>
 			<string>Object  214</string>
 			<string>Object  215</string>
 			<string>Object  216</string>
@@ -4326,513 +4333,508 @@
 			<string>Object  218</string>
 			<string>Object  219</string>
 			<string>Object  220</string>
-			<string>Object  222</string>
-			<string>Object  224</string>
+			<string>Object  221</string>
+			<string>Object  223</string>
 			<string>Object  225</string>
-			<string>Object  227</string>
-			<string>Object  229</string>
-			<string>Object  233</string>
-			<string>Object  235</string>
-			<string>Object  237</string>
-			<string>Object  239</string>
-			<string>Object  241</string>
-			<string>Object  243</string>
-			<string>Object  245</string>
-			<string>Object  247</string>
-			<string>Object  249</string>
+			<string>Object  226</string>
+			<string>Object  228</string>
+			<string>Object  230</string>
+			<string>Object  234</string>
+			<string>Object  236</string>
+			<string>Object  238</string>
+			<string>Object  240</string>
+			<string>Object  242</string>
+			<string>Object  244</string>
+			<string>Object  246</string>
+			<string>Object  248</string>
+			<string>Object  250</string>
+			<string>Object  252</string>
+			<string>Object  254</string>
+			<string>Object  256</string>
+			<string>Object  258</string>
+			<string>Object  260</string>
 		</array>
 		<key>isa</key>
 		<string>NSMutableArray</string>
 	</dict>
-	<key>Object  149</key>
+	<key>Object  150</key>
 	<dict>
 		<key>destination</key>
 		<string>nil</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  150</string>
+		<string>Object  151</string>
 		<key>source</key>
 		<string>Object  134</string>
 	</dict>
-	<key>Object  150</key>
+	<key>Object  151</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>performMiniaturize:</string>
 	</dict>
-	<key>Object  151</key>
+	<key>Object  152</key>
 	<dict>
 		<key>destination</key>
 		<string>nil</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  152</string>
+		<string>Object  153</string>
 		<key>source</key>
 		<string>Object  137</string>
 	</dict>
-	<key>Object  152</key>
+	<key>Object  153</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>arrangeInFront:</string>
 	</dict>
-	<key>Object  153</key>
+	<key>Object  154</key>
 	<dict>
 		<key>destination</key>
 		<string>nil</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  154</string>
+		<string>Object  155</string>
 		<key>source</key>
 		<string>Object  141</string>
 	</dict>
-	<key>Object  154</key>
+	<key>Object  155</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>showHelp:</string>
 	</dict>
-	<key>Object  155</key>
+	<key>Object  156</key>
 	<dict>
 		<key>destination</key>
 		<string>nil</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  156</string>
+		<string>Object  157</string>
 		<key>source</key>
 		<string>Object  121</string>
 	</dict>
-	<key>Object  156</key>
+	<key>Object  157</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>clearRecentDocuments:</string>
 	</dict>
-	<key>Object  157</key>
+	<key>Object  158</key>
 	<dict>
 		<key>destination</key>
 		<string>Object    2</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  158</string>
+		<string>Object  159</string>
 		<key>source</key>
 		<string>Object  113</string>
 	</dict>
-	<key>Object  158</key>
+	<key>Object  159</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>terminate:</string>
 	</dict>
-	<key>Object  159</key>
+	<key>Object  160</key>
 	<dict>
 		<key>destination</key>
 		<string>Object    2</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  160</string>
+		<string>Object  161</string>
 		<key>source</key>
 		<string>Object  100</string>
 	</dict>
-	<key>Object  160</key>
+	<key>Object  161</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>orderFrontStandardAboutPanel:</string>
 	</dict>
-	<key>Object  161</key>
+	<key>Object  162</key>
 	<dict>
 		<key>destination</key>
 		<string>Object    2</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  162</string>
+		<string>Object  163</string>
 		<key>source</key>
 		<string>Object  110</string>
 	</dict>
-	<key>Object  162</key>
+	<key>Object  163</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>hideOtherApplications:</string>
 	</dict>
-	<key>Object  163</key>
+	<key>Object  164</key>
 	<dict>
 		<key>destination</key>
 		<string>Object    2</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  164</string>
+		<string>Object  165</string>
 		<key>source</key>
 		<string>Object  109</string>
 	</dict>
-	<key>Object  164</key>
+	<key>Object  165</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>hide:</string>
 	</dict>
-	<key>Object  165</key>
+	<key>Object  166</key>
 	<dict>
 		<key>destination</key>
 		<string>Object    2</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  166</string>
+		<string>Object  167</string>
 		<key>source</key>
 		<string>Object  111</string>
 	</dict>
-	<key>Object  166</key>
+	<key>Object  167</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>unhideAllApplications:</string>
 	</dict>
-	<key>Object  167</key>
+	<key>Object  168</key>
 	<dict>
 		<key>destination</key>
 		<string>nil</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  168</string>
+		<string>Object  169</string>
 		<key>source</key>
 		<string>Object  123</string>
 	</dict>
-	<key>Object  168</key>
+	<key>Object  169</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>performClose:</string>
 	</dict>
-	<key>Object  169</key>
+	<key>Object  170</key>
 	<dict>
 		<key>destination</key>
 		<string>nil</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  170</string>
+		<string>Object  171</string>
 		<key>source</key>
 		<string>Object  135</string>
 	</dict>
-	<key>Object  170</key>
+	<key>Object  171</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>performZoom:</string>
 	</dict>
-	<key>Object  171</key>
+	<key>Object  172</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   62</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  172</string>
+		<string>Object  173</string>
 		<key>source</key>
 		<string>Object  142</string>
 	</dict>
-	<key>Object  172</key>
+	<key>Object  173</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>display</string>
 	</dict>
-	<key>Object  173</key>
+	<key>Object  174</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   59</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  174</string>
+		<string>Object  175</string>
 		<key>source</key>
 		<string>Object  142</string>
 	</dict>
-	<key>Object  174</key>
+	<key>Object  175</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>gbaWindow</string>
 	</dict>
-	<key>Object  175</key>
+	<key>Object  176</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   74</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  176</string>
+		<string>Object  177</string>
 		<key>source</key>
 		<string>Object  142</string>
 	</dict>
-	<key>Object  176</key>
+	<key>Object  177</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>layersWindow</string>
 	</dict>
-	<key>Object  177</key>
+	<key>Object  178</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   45</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  178</string>
+		<string>Object  179</string>
 		<key>source</key>
 		<string>Object  143</string>
 	</dict>
-	<key>Object  178</key>
+	<key>Object  179</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>address</string>
 	</dict>
-	<key>Object  179</key>
+	<key>Object  180</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   37</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  180</string>
+		<string>Object  181</string>
 		<key>source</key>
 		<string>Object  143</string>
 	</dict>
-	<key>Object  180</key>
+	<key>Object  181</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>bgGrid</string>
 	</dict>
-	<key>Object  181</key>
+	<key>Object  182</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   51</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  182</string>
+		<string>Object  183</string>
 		<key>source</key>
 		<string>Object  143</string>
 	</dict>
-	<key>Object  182</key>
+	<key>Object  183</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>value</string>
 	</dict>
-	<key>Object  183</key>
+	<key>Object  184</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   55</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  184</string>
+		<string>Object  185</string>
 		<key>source</key>
 		<string>Object  143</string>
 	</dict>
-	<key>Object  184</key>
+	<key>Object  185</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>html</string>
 	</dict>
-	<key>Object  185</key>
+	<key>Object  186</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   42</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  186</string>
+		<string>Object  187</string>
 		<key>source</key>
 		<string>Object  143</string>
 	</dict>
-	<key>Object  186</key>
+	<key>Object  187</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>spriteGrid</string>
 	</dict>
-	<key>Object  187</key>
+	<key>Object  188</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   43</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  188</string>
+		<string>Object  189</string>
 		<key>source</key>
 		<string>Object  143</string>
 	</dict>
-	<key>Object  188</key>
+	<key>Object  189</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>colorWell</string>
 	</dict>
-	<key>Object  189</key>
+	<key>Object  190</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   27</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  190</string>
+		<string>Object  191</string>
 		<key>source</key>
 		<string>Object  142</string>
 	</dict>
-	<key>Object  190</key>
+	<key>Object  191</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>logView</string>
 	</dict>
-	<key>Object  191</key>
+	<key>Object  192</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   21</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  192</string>
+		<string>Object  193</string>
 		<key>source</key>
 		<string>Object  142</string>
 	</dict>
-	<key>Object  192</key>
+	<key>Object  193</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>logWindow</string>
 	</dict>
-	<key>Object  193</key>
+	<key>Object  194</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  144</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  194</string>
+		<string>Object  195</string>
 		<key>source</key>
 		<string>Object  143</string>
 	</dict>
-	<key>Object  194</key>
+	<key>Object  195</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>tile</string>
 	</dict>
-	<key>Object  195</key>
+	<key>Object  196</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  144</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  196</string>
+		<string>Object  197</string>
 		<key>source</key>
 		<string>Object   42</string>
 	</dict>
-	<key>Object  196</key>
+	<key>Object  197</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>standardTile</string>
 	</dict>
-	<key>Object  197</key>
+	<key>Object  198</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  144</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  196</string>
+		<string>Object  197</string>
 		<key>source</key>
 		<string>Object   37</string>
 	</dict>
-	<key>Object  198</key>
+	<key>Object  199</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  143</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  199</string>
+		<string>Object  200</string>
 		<key>source</key>
 		<string>Object   37</string>
 	</dict>
-	<key>Object  199</key>
+	<key>Object  200</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>delegate</string>
 	</dict>
-	<key>Object  200</key>
+	<key>Object  201</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  143</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  201</string>
+		<string>Object  202</string>
 		<key>source</key>
 		<string>Object   37</string>
 	</dict>
-	<key>Object  201</key>
+	<key>Object  202</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>target</string>
-	</dict>
-	<key>Object  202</key>
-	<dict>
-		<key>destination</key>
-		<string>Object  143</string>
-		<key>isa</key>
-		<string>IMOutletConnector</string>
-		<key>label</key>
-		<string>Object  199</string>
-		<key>source</key>
-		<string>Object   42</string>
 	</dict>
 	<key>Object  203</key>
 	<dict>
@@ -4841,107 +4843,107 @@
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  201</string>
+		<string>Object  200</string>
 		<key>source</key>
 		<string>Object   42</string>
 	</dict>
 	<key>Object  204</key>
 	<dict>
 		<key>destination</key>
+		<string>Object  143</string>
+		<key>isa</key>
+		<string>IMOutletConnector</string>
+		<key>label</key>
+		<string>Object  202</string>
+		<key>source</key>
+		<string>Object   42</string>
+	</dict>
+	<key>Object  205</key>
+	<dict>
+		<key>destination</key>
 		<string>Object   74</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  205</string>
+		<string>Object  206</string>
 		<key>source</key>
 		<string>Object  128</string>
 	</dict>
-	<key>Object  205</key>
+	<key>Object  206</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>orderFront:</string>
 	</dict>
-	<key>Object  206</key>
+	<key>Object  207</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   21</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  205</string>
+		<string>Object  206</string>
 		<key>source</key>
 		<string>Object  129</string>
 	</dict>
-	<key>Object  207</key>
+	<key>Object  208</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   30</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  205</string>
+		<string>Object  206</string>
 		<key>source</key>
 		<string>Object  130</string>
 	</dict>
-	<key>Object  208</key>
+	<key>Object  209</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  142</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  199</string>
+		<string>Object  200</string>
 		<key>source</key>
 		<string>Object    2</string>
 	</dict>
-	<key>Object  209</key>
+	<key>Object  210</key>
 	<dict>
 		<key>destination</key>
 		<string>nil</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  210</string>
+		<string>Object  211</string>
 		<key>source</key>
 		<string>Object  117</string>
 	</dict>
-	<key>Object  210</key>
+	<key>Object  211</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>openDocument:</string>
 	</dict>
-	<key>Object  211</key>
+	<key>Object  212</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  142</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  212</string>
+		<string>Object  213</string>
 		<key>source</key>
 		<string>Object   77</string>
 	</dict>
-	<key>Object  212</key>
+	<key>Object  213</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>toggleLayer:</string>
-	</dict>
-	<key>Object  213</key>
-	<dict>
-		<key>destination</key>
-		<string>Object  142</string>
-		<key>isa</key>
-		<string>IMControlConnector</string>
-		<key>label</key>
-		<string>Object  212</string>
-		<key>source</key>
-		<string>Object   81</string>
 	</dict>
 	<key>Object  214</key>
 	<dict>
@@ -4950,9 +4952,9 @@
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  212</string>
+		<string>Object  213</string>
 		<key>source</key>
-		<string>Object   85</string>
+		<string>Object   81</string>
 	</dict>
 	<key>Object  215</key>
 	<dict>
@@ -4961,9 +4963,9 @@
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  212</string>
+		<string>Object  213</string>
 		<key>source</key>
-		<string>Object   87</string>
+		<string>Object   85</string>
 	</dict>
 	<key>Object  216</key>
 	<dict>
@@ -4972,9 +4974,9 @@
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  212</string>
+		<string>Object  213</string>
 		<key>source</key>
-		<string>Object   83</string>
+		<string>Object   87</string>
 	</dict>
 	<key>Object  217</key>
 	<dict>
@@ -4983,9 +4985,9 @@
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  212</string>
+		<string>Object  213</string>
 		<key>source</key>
-		<string>Object   89</string>
+		<string>Object   83</string>
 	</dict>
 	<key>Object  218</key>
 	<dict>
@@ -4994,9 +4996,9 @@
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  212</string>
+		<string>Object  213</string>
 		<key>source</key>
-		<string>Object   91</string>
+		<string>Object   89</string>
 	</dict>
 	<key>Object  219</key>
 	<dict>
@@ -5005,105 +5007,116 @@
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  212</string>
+		<string>Object  213</string>
+		<key>source</key>
+		<string>Object   91</string>
+	</dict>
+	<key>Object  220</key>
+	<dict>
+		<key>destination</key>
+		<string>Object  142</string>
+		<key>isa</key>
+		<string>IMControlConnector</string>
+		<key>label</key>
+		<string>Object  213</string>
 		<key>source</key>
 		<string>Object   93</string>
 	</dict>
-	<key>Object  220</key>
+	<key>Object  221</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   37</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  221</string>
+		<string>Object  222</string>
 		<key>source</key>
 		<string>Object  142</string>
 	</dict>
-	<key>Object  221</key>
+	<key>Object  222</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>bgPalView</string>
 	</dict>
-	<key>Object  222</key>
+	<key>Object  223</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   42</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  223</string>
+		<string>Object  224</string>
 		<key>source</key>
 		<string>Object  142</string>
 	</dict>
-	<key>Object  223</key>
+	<key>Object  224</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>spritePalView</string>
 	</dict>
-	<key>Object  224</key>
+	<key>Object  225</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  142</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  199</string>
+		<string>Object  200</string>
 		<key>source</key>
 		<string>Object   59</string>
 	</dict>
-	<key>Object  225</key>
+	<key>Object  226</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   63</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  226</string>
+		<string>Object  227</string>
 		<key>source</key>
 		<string>Object   68</string>
 	</dict>
-	<key>Object  226</key>
+	<key>Object  227</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>orderOut:</string>
 	</dict>
-	<key>Object  227</key>
+	<key>Object  228</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  146</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  228</string>
+		<string>Object  229</string>
 		<key>source</key>
 		<string>Object  145</string>
 	</dict>
-	<key>Object  228</key>
+	<key>Object  229</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>portView</string>
 	</dict>
-	<key>Object  229</key>
+	<key>Object  230</key>
 	<dict>
 		<key>destination</key>
-		<string>Object  230</string>
+		<string>Object  231</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  232</string>
+		<string>Object  233</string>
 		<key>source</key>
 		<string>Object  145</string>
 	</dict>
-	<key>Object  230</key>
+	<key>Object  231</key>
 	<dict>
 		<key>autoresizesSubviews</key>
 		<string>YES</string>
@@ -5112,7 +5125,7 @@
 		<key>bounds</key>
 		<string>{x=0.000000; y=0.000000; width=50.000000; height=22.000000}</string>
 		<key>cell</key>
-		<string>Object  231</string>
+		<string>Object  232</string>
 		<key>delegate</key>
 		<string>nil</string>
 		<key>errorAction</key>
@@ -5144,7 +5157,7 @@
 		<key>tag</key>
 		<string>0</string>
 	</dict>
-	<key>Object  231</key>
+	<key>Object  232</key>
 	<dict>
 		<key>action</key>
 		<string>nil</string>
@@ -5193,179 +5206,262 @@
 		<key>wraps</key>
 		<string>NO</string>
 	</dict>
-	<key>Object  232</key>
+	<key>Object  233</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>portField</string>
 	</dict>
-	<key>Object  233</key>
+	<key>Object  234</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   63</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  234</string>
+		<string>Object  235</string>
 		<key>source</key>
 		<string>Object  145</string>
 	</dict>
-	<key>Object  234</key>
+	<key>Object  235</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>connectDialog</string>
 	</dict>
-	<key>Object  235</key>
+	<key>Object  236</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  145</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  236</string>
+		<string>Object  237</string>
 		<key>source</key>
 		<string>Object   66</string>
 	</dict>
-	<key>Object  236</key>
+	<key>Object  237</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>okPressed:</string>
 	</dict>
-	<key>Object  237</key>
+	<key>Object  238</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  145</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  238</string>
+		<string>Object  239</string>
 		<key>source</key>
 		<string>Object   15</string>
 	</dict>
-	<key>Object  238</key>
+	<key>Object  239</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>cancelConnection:</string>
 	</dict>
-	<key>Object  239</key>
+	<key>Object  240</key>
 	<dict>
 		<key>destination</key>
 		<string>Object    5</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  240</string>
+		<string>Object  241</string>
 		<key>source</key>
 		<string>Object  145</string>
 	</dict>
-	<key>Object  240</key>
+	<key>Object  241</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>waitDialog</string>
 	</dict>
-	<key>Object  241</key>
+	<key>Object  242</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   17</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  242</string>
+		<string>Object  243</string>
 		<key>source</key>
 		<string>Object  145</string>
 	</dict>
-	<key>Object  242</key>
+	<key>Object  243</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>portLabel</string>
 	</dict>
-	<key>Object  243</key>
+	<key>Object  244</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  145</string>
 		<key>isa</key>
 		<string>IMControlConnector</string>
 		<key>label</key>
-		<string>Object  244</string>
+		<string>Object  245</string>
 		<key>source</key>
 		<string>Object  127</string>
 	</dict>
-	<key>Object  244</key>
+	<key>Object  245</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>showConnectDialog:</string>
 	</dict>
-	<key>Object  245</key>
+	<key>Object  246</key>
 	<dict>
 		<key>destination</key>
 		<string>Object  142</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  246</string>
+		<string>Object  247</string>
 		<key>source</key>
 		<string>Object  145</string>
 	</dict>
-	<key>Object  246</key>
+	<key>Object  247</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>mainController</string>
 	</dict>
-	<key>Object  247</key>
+	<key>Object  248</key>
 	<dict>
 		<key>destination</key>
 		<string>Object    8</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  248</string>
+		<string>Object  249</string>
 		<key>source</key>
 		<string>Object  145</string>
 	</dict>
-	<key>Object  248</key>
+	<key>Object  249</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>progressBar</string>
 	</dict>
-	<key>Object  249</key>
+	<key>Object  250</key>
 	<dict>
 		<key>destination</key>
 		<string>Object   70</string>
 		<key>isa</key>
 		<string>IMOutletConnector</string>
 		<key>label</key>
-		<string>Object  250</string>
+		<string>Object  251</string>
 		<key>source</key>
 		<string>Object  145</string>
 	</dict>
-	<key>Object  250</key>
+	<key>Object  251</key>
 	<dict>
 		<key>isa</key>
 		<string>NSMutableString</string>
 		<key>string</key>
 		<string>portField2</string>
 	</dict>
+	<key>Object  252</key>
+	<dict>
+		<key>destination</key>
+		<string>Object  148</string>
+		<key>isa</key>
+		<string>IMOutletConnector</string>
+		<key>label</key>
+		<string>Object  253</string>
+		<key>source</key>
+		<string>Object  142</string>
+	</dict>
+	<key>Object  253</key>
+	<dict>
+		<key>isa</key>
+		<string>NSMutableString</string>
+		<key>string</key>
+		<string>memLogger</string>
+	</dict>
+	<key>Object  254</key>
+	<dict>
+		<key>destination</key>
+		<string>Object   42</string>
+		<key>isa</key>
+		<string>IMOutletConnector</string>
+		<key>label</key>
+		<string>Object  255</string>
+		<key>source</key>
+		<string>Object  148</string>
+	</dict>
+	<key>Object  255</key>
+	<dict>
+		<key>isa</key>
+		<string>NSMutableString</string>
+		<key>string</key>
+		<string>spritePal</string>
+	</dict>
+	<key>Object  256</key>
+	<dict>
+		<key>destination</key>
+		<string>Object   37</string>
+		<key>isa</key>
+		<string>IMOutletConnector</string>
+		<key>label</key>
+		<string>Object  257</string>
+		<key>source</key>
+		<string>Object  148</string>
+	</dict>
+	<key>Object  257</key>
+	<dict>
+		<key>isa</key>
+		<string>NSMutableString</string>
+		<key>string</key>
+		<string>bgPal</string>
+	</dict>
+	<key>Object  258</key>
+	<dict>
+		<key>destination</key>
+		<string>Object   30</string>
+		<key>isa</key>
+		<string>IMOutletConnector</string>
+		<key>label</key>
+		<string>Object  259</string>
+		<key>source</key>
+		<string>Object  148</string>
+	</dict>
+	<key>Object  259</key>
+	<dict>
+		<key>isa</key>
+		<string>NSMutableString</string>
+		<key>string</key>
+		<string>palWindow</string>
+	</dict>
+	<key>Object  260</key>
+	<dict>
+		<key>destination</key>
+		<string>Object  148</string>
+		<key>isa</key>
+		<string>IMOutletConnector</string>
+		<key>label</key>
+		<string>Object  200</string>
+		<key>source</key>
+		<string>Object   30</string>
+	</dict>
 	<key>RootObject</key>
 	<dict>
 		<key>Connections</key>
-		<string>Object  148</string>
+		<string>Object  149</string>
 		<key>Objects</key>
 		<string>Object    1</string>
 		<key>isa</key>

@@ -12,6 +12,8 @@ VBAStep_OBJC_FILES = \
 	ColorTile.m \
 	PaletteController.m \
 	GdbController.m \
+	PCList.m \
+	MemLogger.m \
 
 VBAStep_MAIN_MODEL_FILE = MainMenu.nib
 

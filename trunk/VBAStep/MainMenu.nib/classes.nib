@@ -36,8 +36,15 @@
                 layersWindow = NSWindow; 
                 logView = NSTextView; 
                 logWindow = NSWindow; 
+                memLogger = MemLogger; 
                 spritePalView = NSView; 
             }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = MemLogger; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {bgPal = TileGrid; palWindow = NSWindow; spritePal = TileGrid; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 

@@ -23,6 +23,7 @@
 
 #import "GbaScreen.h"
 #import "Emulator.h"
+#import "MemLogger.h"
 
 @interface MainController: NSObject
 {
@@ -33,6 +34,7 @@
   IBOutlet NSTextView *logView;
   IBOutlet NSView *spritePalView;
   IBOutlet NSView *bgPalView;
+  IBOutlet MemLogger *memLogger;
 }
 
 - (void)applicationWillFinishLaunching: (NSNotification *)aNotification;

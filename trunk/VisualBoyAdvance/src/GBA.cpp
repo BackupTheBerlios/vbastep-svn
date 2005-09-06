@@ -2704,18 +2704,30 @@ void CPUWriteHalfWord(u32 address, u16 value)
       WRITE16LE(((u16 *)&internalRAM[address & 0x7ffe]), value);
     break;    
   case 4:
-    if(address < 0x4000400)
+    if(address < 0x4000400) {
+#ifdef DEV_VERSION
+      registerModified(address & 0x3FE);
+#endif /* DEV_VERSION */
       CPUUpdateRegister(address & 0x3fe, value);
-    else goto unwritable;
+    } else goto unwritable;
     break;
   case 5:
+#ifdef DEV_VERSION
+      paletteRamModified(address & 0x3FE);
+#endif /* DEV_VERSION */
     WRITE16LE(((u16 *)&paletteRAM[address & 0x3fe]), value);
     break;
   case 6:
+#ifdef DEV_VERSION
+      vramModified(address);
+#endif /* DEV_VERSION */
     if ((address & 0xFFFFFF) < 0x18000)
       WRITE16LE(((u16 *)&vram[address & 0x1fffe]), value);
     break;
   case 7:
+#ifdef DEV_VERSION
+      oamModified(address & 0x3fe);
+#endif /* DEV_VERSION */
     WRITE16LE(((u16 *)&oam[address & 0x3fe]), value);
     break;
   case 8:
@@ -2772,6 +2784,9 @@ void CPUWriteByte(u32 address, u8 b)
     break;
   case 4:
     if(address < 0x4000400) {
+#ifdef DEV_VERSION
+      registerModified(address & 0x3FE);
+#endif /* DEV_VERSION */
       switch(address & 0x3FF) {
       case 0x301:
 	if(b == 0x80)
@@ -2836,14 +2851,21 @@ void CPUWriteByte(u32 address, u8 b)
     } else goto unwritable;
     break;
   case 5:
+#ifdef DEV_VERSION
+      paletteRamModified(address & 0x3FE);
+#endif /* DEV_VERSION */
     // no need to switch
     *((u16 *)&paletteRAM[address & 0x3FE]) = (b << 8) | b;
     break;
   case 6:
     // no need to switch 
     // byte writes to OBJ VRAM are ignored
-    if ((address & 0xFFFFFF) < objTilesAddress[((DISPCNT&7)+1)>>2])
+    if ((address & 0xFFFFFF) < objTilesAddress[((DISPCNT&7)+1)>>2]) {
             *((u16 *)&vram[address & 0x1FFFE]) = (b << 8) | b;
+#ifdef DEV_VERSION
+            vramModified(address);
+#endif /* DEV_VERSION */
+    }
     break;
   case 7:
     // no need to switch

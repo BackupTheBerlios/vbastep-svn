@@ -31,6 +31,13 @@ extern char cpuEEPROMSensorEnabled;
 extern char cpuDmaHack;
 extern u32 cpuDmaLast;
 
+extern "C" {
+  void registerModified(u32);
+  void paletteRamModified(u32);
+  void vramModified(u32);
+  void oamModified(u32);
+}
+
 #define CPUReadByteQuick(addr) \
   map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]
 
@@ -371,20 +378,33 @@ inline void CPUWriteMemory(u32 address, u32 value)
     break;
   case 0x04:
     if(address < 0x4000400) {
+#ifdef DEV_VERSION
+      registerModified(address & 0x3FC);
+      registerModified((address & 0x3FC) + 2);
+#endif /* DEV_VERSION */
       CPUUpdateRegister((address & 0x3FC), value & 0xFFFF);
       CPUUpdateRegister((address & 0x3FC) + 2, (value >> 16));
     } else goto unwritable;
     break;
   case 0x05:
+#ifdef DEV_VERSION
+    paletteRamModified(address & 0x3FC);
+#endif /* DEV_VERSION */
     WRITE32LE(((u32 *)&paletteRAM[address & 0x3FC]), value);
     break;
   case 0x06:
+#ifdef DEV_VERSION
+    vramModified(address);
+#endif /* DEV_VERSION */
     if(address & 0x10000)
       WRITE32LE(((u32 *)&vram[address & 0x17ffc]), value);
     else
       WRITE32LE(((u32 *)&vram[address & 0x1fffc]), value);
     break;
   case 0x07:
+#ifdef DEV_VERSION
+    oamModified(address & 0x3FC);
+#endif /* DEV_VERSION */
     WRITE32LE(((u32 *)&oam[address & 0x3fc]), value);
     break;
   case 0x0D:

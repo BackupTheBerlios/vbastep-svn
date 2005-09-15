@@ -156,7 +156,9 @@ bool remoteTcpConnect(int cancelSocket) {
     FD_ZERO(&readfds);
     FD_SET(cancelSocket, &readfds);
     FD_SET(remoteListenSocket, &readfds);
-    FD_COPY(&readfds, &exfds);
+    FD_ZERO(&exfds);
+    FD_SET(cancelSocket, &exfds);
+    FD_SET(remoteListenSocket, &exfds);
 
 #ifdef WIN32
     int flag = 0;    
@@ -221,7 +223,7 @@ int remotePipeRecv(char *data, int len)
   return res;
 }
 
-bool remotePipeInit()
+int remotePipeInit()
 {
   char dummy;
   read(0, &dummy, 1);
@@ -296,6 +298,7 @@ void remotePutPacket(char *packet)
   */
 }
 
+#if 0 /* Now in GBA.h */
 #define debuggerReadMemory(addr) \
   (*(u32*)&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask])
 
@@ -313,6 +316,8 @@ void remotePutPacket(char *packet)
 
 #define debuggerWriteByte(addr, value) \
   map[(addr)>>24].address[(addr) & map[(addr)>>24].mask] = (value)
+
+#endif
 
 void remoteOutput(char *s, u32 addr)
 {

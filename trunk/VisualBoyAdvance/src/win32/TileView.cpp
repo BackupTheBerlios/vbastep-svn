@@ -265,6 +265,8 @@ void TileView::savePNG(const char *name)
 
 void TileView::OnSave() 
 {
+  if(rom != NULL)
+  {
   CString captureBuffer;
 
   if(theApp.captureFormat == 0)
@@ -297,6 +299,7 @@ void TileView::OnSave()
     saveBMP(captureBuffer);
   else
     savePNG(captureBuffer);  
+}
 }
 
 void TileView::renderTile256(int tile, int x, int y, u8 *charBase, u16 *palette)

@@ -109,6 +109,8 @@ BOOL PaletteView::OnInitDialog()
 
 void PaletteView::save(int which)
 {
+  if(rom != NULL)
+  {
   CString captureBuffer;
 
   if(which == 0)
@@ -155,6 +157,7 @@ void PaletteView::save(int which)
     p->saveAdobe(captureBuffer);
     break;
   }
+}
 }
 
 void PaletteView::OnSaveBg() 

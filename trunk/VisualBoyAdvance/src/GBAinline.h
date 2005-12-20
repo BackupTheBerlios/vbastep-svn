@@ -23,13 +23,34 @@
 #include "System.h"
 #include "Port.h"
 #include "RTC.h"
+#include "Sound.h"
+#include "agbprint.h"
 
-extern char cpuSramEnabled;
-extern char cpuFlashEnabled;
-extern char cpuEEPROMEnabled;
-extern char cpuEEPROMSensorEnabled;
-extern char cpuDmaHack;
+extern const u32 objTilesAddress[3];
+
+extern bool stopState;
+extern bool holdState;
+extern int holdType;
+extern int cpuNextEvent;
+extern bool cpuSramEnabled;
+extern bool cpuFlashEnabled;
+extern bool cpuEEPROMEnabled;
+extern bool cpuEEPROMSensorEnabled;
+extern bool cpuDmaHack;
 extern u32 cpuDmaLast;
+extern bool timer0On;
+extern int timer0Ticks;
+extern int timer0ClockReload;
+extern bool timer1On;
+extern int timer1Ticks;
+extern int timer1ClockReload;
+extern bool timer2On;
+extern int timer2Ticks;
+extern int timer2ClockReload;
+extern bool timer3On;
+extern int timer3Ticks;
+extern int timer3ClockReload;
+extern int cpuTotalTicks;
 
 extern "C" {
   void registerModified(u32);
@@ -200,7 +221,23 @@ inline u32 CPUReadHalfWord(u32 address)
     break;
   case 4:
     if((address < 0x4000400) && ioReadable[address & 0x3fe])
+    {
       value =  READ16LE(((u16 *)&ioMem[address & 0x3fe]));
+      if (((address & 0x3fe)>0xFF) && ((address & 0x3fe)<0x10E))
+      {
+        if (((address & 0x3fe) == 0x100) && timer0On)
+          value = 0xFFFF - ((timer0Ticks-cpuTotalTicks) >> timer0ClockReload);
+        else
+        if (((address & 0x3fe) == 0x104) && timer1On && !(TM1CNT & 4))
+          value = 0xFFFF - ((timer1Ticks-cpuTotalTicks) >> timer1ClockReload);
+        else
+        if (((address & 0x3fe) == 0x108) && timer2On && !(TM2CNT & 4))
+          value = 0xFFFF - ((timer2Ticks-cpuTotalTicks) >> timer2ClockReload);
+        else
+        if (((address & 0x3fe) == 0x10C) && timer3On && !(TM3CNT & 4))
+          value = 0xFFFF - ((timer3Ticks-cpuTotalTicks) >> timer3ClockReload);
+      }
+    }
     else goto unreadable;
     break;
   case 5:
@@ -379,8 +416,7 @@ inline void CPUWriteMemory(u32 address, u32 value)
   case 0x04:
     if(address < 0x4000400) {
 #ifdef DEV_VERSION
-      registerModified(address & 0x3FC);
-      registerModified((address & 0x3FC) + 2);
+      registerModified(address & 0x3FE);
 #endif /* DEV_VERSION */
       CPUUpdateRegister((address & 0x3FC), value & 0xFFFF);
       CPUUpdateRegister((address & 0x3FC) + 2, (value >> 16));
@@ -388,7 +424,7 @@ inline void CPUWriteMemory(u32 address, u32 value)
     break;
   case 0x05:
 #ifdef DEV_VERSION
-    paletteRamModified(address & 0x3FC);
+    paletteRamModified(address & 0x3FE);
 #endif /* DEV_VERSION */
     WRITE32LE(((u32 *)&paletteRAM[address & 0x3FC]), value);
     break;
@@ -403,7 +439,7 @@ inline void CPUWriteMemory(u32 address, u32 value)
     break;
   case 0x07:
 #ifdef DEV_VERSION
-    oamModified(address & 0x3FC);
+    oamModified(address & 0x3fe);
 #endif /* DEV_VERSION */
     WRITE32LE(((u32 *)&oam[address & 0x3fc]), value);
     break;
@@ -427,6 +463,221 @@ inline void CPUWriteMemory(u32 address, u32 value)
           value,
           address,
           armMode ? armNextPC - 4 : armNextPC - 2);
+    }
+#endif
+    break;
+  }
+}
+
+inline void CPUWriteHalfWord(u32 address, u16 value)
+{
+#ifdef DEV_VERSION
+  if(address & 1) {
+    if(systemVerbose & VERBOSE_UNALIGNED_MEMORY) {
+      emulog("Unaligned halfword write: %04x to %08x from %08x\n",
+          value,
+          address,
+          armMode ? armNextPC - 4 : armNextPC - 2);
+    }
+  }
+#endif
+  
+  switch(address >> 24) {
+  case 2:
+#ifdef SDL
+    if(*((u16 *)&freezeWorkRAM[address & 0x3FFFE]))
+      cheatsWriteHalfWord(address & 0x203FFFE,
+                          value);
+    else
+#endif
+      WRITE16LE(((u16 *)&workRAM[address & 0x3FFFE]),value);
+    break;
+  case 3:
+#ifdef SDL
+    if(*((u16 *)&freezeInternalRAM[address & 0x7ffe]))
+      cheatsWriteHalfWord(address & 0x3007ffe,
+                          value);
+    else
+#endif
+      WRITE16LE(((u16 *)&internalRAM[address & 0x7ffe]), value);
+    break;    
+  case 4:
+    if(address < 0x4000400) {
+#ifdef DEV_VERSION
+      registerModified(address & 0x3FE);
+#endif /* DEV_VERSION */
+      CPUUpdateRegister(address & 0x3fe, value);
+    } else goto unwritable;
+    break;
+  case 5:
+#ifdef DEV_VERSION
+    paletteRamModified(address & 0x3FE);
+#endif /* DEV_VERSION */
+    WRITE16LE(((u16 *)&paletteRAM[address & 0x3fe]), value);
+    break;
+  case 6:
+    if ((address & 0xFFFFFF) < 0x18000) {
+#ifdef DEV_VERSION
+      vramModified(address);
+#endif /* DEV_VERSION */
+    WRITE16LE(((u16 *)&vram[address & 0x1fffe]), value);
+    }
+    break;
+  case 7:
+    WRITE16LE(((u16 *)&oam[address & 0x3fe]), value);
+    break;
+  case 8:
+  case 9:
+    if(address == 0x80000c4 || address == 0x80000c6 || address == 0x80000c8) {
+      if(!rtcWrite(address, value))
+        goto unwritable;
+    } else if(!agbPrintWrite(address, value)) goto unwritable;
+    break;
+  case 13:
+    if(cpuEEPROMEnabled) {
+      eepromWrite(address, (u8)value);
+      break;
+    }
+    goto unwritable;
+  case 14:
+    if(!eepromInUse | cpuSramEnabled | cpuFlashEnabled) {
+      (*cpuSaveGameFunc)(address, (u8)value);
+      break;
+    }
+    goto unwritable;
+  default:
+  unwritable:
+#ifdef DEV_VERSION
+    if(systemVerbose & VERBOSE_ILLEGAL_WRITE) {
+      emulog("Illegal halfword write: %04x to %08x from %08x\n",
+          value,
+          address,
+          armMode ? armNextPC - 4 : armNextPC - 2);
+    }
+#endif
+    break;
+  }
+}
+
+inline void CPUWriteByte(u32 address, u8 b)
+{
+  switch(address >> 24) {
+  case 2:
+#ifdef SDL
+      if(freezeWorkRAM[address & 0x3FFFF])
+        cheatsWriteByte(address & 0x203FFFF, b);
+      else
+#endif  
+        workRAM[address & 0x3FFFF] = b;
+    break;
+  case 3:
+#ifdef SDL
+    if(freezeInternalRAM[address & 0x7fff])
+      cheatsWriteByte(address & 0x3007fff, b);
+    else
+#endif
+      internalRAM[address & 0x7fff] = b;
+    break;
+  case 4:
+    if(address < 0x4000400) {
+      switch(address & 0x3FF) {
+      case 0x301:
+	if(b == 0x80)
+	  stopState = true;
+	holdState = 1;
+	holdType = -1;
+  cpuNextEvent = cpuTotalTicks;
+	break;
+      case 0x60:
+      case 0x61:
+      case 0x62:
+      case 0x63:
+      case 0x64:
+      case 0x65:
+      case 0x68:
+      case 0x69:
+      case 0x6c:
+      case 0x6d:
+      case 0x70:
+      case 0x71:
+      case 0x72:
+      case 0x73:
+      case 0x74:
+      case 0x75:
+      case 0x78:
+      case 0x79:
+      case 0x7c:
+      case 0x7d:
+      case 0x80:
+      case 0x81:
+      case 0x84:
+      case 0x85:
+      case 0x90:
+      case 0x91:
+      case 0x92:
+      case 0x93:
+      case 0x94:
+      case 0x95:
+      case 0x96:
+      case 0x97:
+      case 0x98:
+      case 0x99:
+      case 0x9a:
+      case 0x9b:
+      case 0x9c:
+      case 0x9d:
+      case 0x9e:
+      case 0x9f:      
+	soundEvent(address&0xFF, b);
+	break;
+      default:
+	if(address & 1)
+	  CPUUpdateRegister(address & 0x3fe,
+			    ((READ16LE(((u16 *)&ioMem[address & 0x3fe])))
+			     & 0x00FF) |
+			    b<<8);
+	else
+	  CPUUpdateRegister(address & 0x3fe,
+			    ((READ16LE(((u16 *)&ioMem[address & 0x3fe])) & 0xFF00) | b));
+      }
+      break;
+    } else goto unwritable;
+    break;
+  case 5:
+    // no need to switch
+    *((u16 *)&paletteRAM[address & 0x3FE]) = (b << 8) | b;
+    break;
+  case 6:
+    // no need to switch 
+    // byte writes to OBJ VRAM are ignored
+    if ((address & 0xFFFFFF) < objTilesAddress[((DISPCNT&7)+1)>>2])
+            *((u16 *)&vram[address & 0x1FFFE]) = (b << 8) | b;
+    break;
+  case 7:
+    // no need to switch
+    // byte writes to OAM are ignored
+    //    *((u16 *)&oam[address & 0x3FE]) = (b << 8) | b;
+    break;    
+  case 13:
+    if(cpuEEPROMEnabled) {
+      eepromWrite(address, b);
+      break;
+    }
+    goto unwritable;
+  case 14:
+    if(!eepromInUse | cpuSramEnabled | cpuFlashEnabled) {
+      (*cpuSaveGameFunc)(address, b);
+      break;
+    }
+    // default
+  default:
+  unwritable:
+#ifdef DEV_VERSION
+    if(systemVerbose & VERBOSE_ILLEGAL_WRITE) {
+      emulog("Illegal byte write: %02x to %08x from %08x\n",
+          b,
+          address,
+          armMode ? armNextPC - 4 : armNextPC -2 );
     }
 #endif
     break;

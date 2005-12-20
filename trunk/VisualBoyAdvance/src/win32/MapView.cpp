@@ -1000,6 +1000,8 @@ void MapView::savePNG(const char *name)
 
 void MapView::OnSave() 
 {
+  if(rom != NULL)
+  {
   CString filename;
 
   if(theApp.captureFormat == 0)
@@ -1030,4 +1032,5 @@ void MapView::OnSave()
     saveBMP(dlg.GetPathName());
   else
     savePNG(dlg.GetPathName());
+}
 }

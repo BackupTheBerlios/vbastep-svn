@@ -463,6 +463,8 @@ void OamView::savePNG(const char *name)
 
 void OamView::OnSave() 
 {
+  if(rom != NULL)
+  {
   CString captureBuffer;
 
   if(theApp.captureFormat == 0)
@@ -494,6 +496,7 @@ void OamView::OnSave()
     saveBMP(captureBuffer);
   else
     savePNG(captureBuffer);  
+}
 }
 
 BOOL OamView::OnInitDialog() 

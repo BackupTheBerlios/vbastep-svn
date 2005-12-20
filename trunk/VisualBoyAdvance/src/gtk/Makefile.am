@@ -49,6 +49,9 @@ libgba_a_SOURCES = \
 	../Flash.h		\
 	../GBA.cpp		\
 	../GBA.h		\
+	../GBA-arm.cpp		\
+	../GBA-thumb.cpp	\
+	../GBAcpu.h		\
 	../GBAinline.h		\
 	../Gfx.cpp		\
 	../Gfx.h		\
@@ -76,7 +79,6 @@ libgba_a_SOURCES = \
 	../admame.cpp		\
 	../agbprint.cpp		\
 	../agbprint.h		\
-	../arm-new.h		\
 	../armdis.cpp		\
 	../armdis.h		\
 	../bilinear.cpp		\
@@ -99,11 +101,9 @@ libgba_a_SOURCES = \
 	../remote.cpp		\
 	../scanline.cpp		\
 	../simple2x.cpp		\
-	../thumb.h		\
 	../unzip.cpp		\
-	../unzip.h \
-	../log.cpp \
-	../CPULoop.cpp
+	../log.cpp			\
+	../unzip.h
 
 libgba_a_CPPFLAGS = -DSDL
 

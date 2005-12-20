@@ -154,6 +154,10 @@ void BIOS_BitUnPack()
   
   int len = CPUReadHalfWord(header);
   // check address
+  if(((source & 0xe000000) == 0) ||
+     ((source + len) & 0xe000000) == 0)
+    return;
+
   int bits = CPUReadByte(header+2);
   int revbits = 8 - bits; 
   // u32 value = 0;
@@ -177,7 +181,7 @@ void BIOS_BitUnPack()
         break;
       u32 d = b & mask;
       u32 temp = d >> bitcount;
-      if(!temp && addBase) {
+      if(d || addBase) {
         temp += base;
       }
       data |= temp << bitwritecount;

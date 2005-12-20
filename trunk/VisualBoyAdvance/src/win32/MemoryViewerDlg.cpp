@@ -320,6 +320,8 @@ void MemoryViewerDlg::setCurrentAddress(u32 address)
 
 void MemoryViewerDlg::OnSave() 
 {
+  if(rom != NULL)
+  {
   MemoryViewerAddressSize dlg;
   CString buffer;
 
@@ -362,9 +364,12 @@ void MemoryViewerDlg::OnSave()
     }
   }
 }
+}
 
 void MemoryViewerDlg::OnLoad() 
 {
+  if(rom != NULL)
+  {
   CString buffer;
   LPCTSTR exts[] = { ".dmp" };
 
@@ -416,6 +421,7 @@ void MemoryViewerDlg::OnLoad()
     }
     fclose(f);    
   }  
+}
 }
 
 void MemoryViewerDlg::PostNcDestroy() 

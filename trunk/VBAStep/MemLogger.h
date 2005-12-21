@@ -25,9 +25,12 @@
   IBOutlet TileGrid *bgPal;
   IBOutlet TileGrid *spritePal;
   IBOutlet NSWindow *palWindow;
+  IBOutlet NSWindow *tileWindow;
   BOOL trackPals;
+  BOOL trackTiles;
 @public
   PCList *palLog;
+  BOOL tileLog;
 }
 
 - (void)updateWindows;

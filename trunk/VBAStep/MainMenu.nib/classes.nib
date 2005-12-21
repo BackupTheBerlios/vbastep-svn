@@ -49,6 +49,7 @@
                 bgPal = TileGrid; 
                 palWindow = NSWindow; 
                 spritePal = TileGrid; 
+                tileWindow = NSWindow; 
                 tiles = TileGrid; 
             }; 
             SUPERCLASS = NSObject; 

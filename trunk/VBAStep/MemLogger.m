@@ -35,15 +35,21 @@ static MemLogger *instance = nil;
 
 - (void)windowDidBecomeKey:(NSNotification*)notification
 {
-  if ([notification object] == palWindow) {
+  id window = [notification object];
+  if (window == palWindow) {
     trackPals = YES;
+  } else if (window == tileWindow) {
+    trackTiles = YES;
   }
 }
 
 - (void)windowWillClose:(NSNotification*)notification
 {
-  if ([notification object] == palWindow) {
+  id window = [notification object];
+  if (window == palWindow) {
     trackPals = NO;
+  } else if (window == tileWindow) {
+    trackTiles = NO;
   }
 }
 
@@ -64,7 +70,9 @@ static MemLogger *instance = nil;
     }
   }
   [palLog swap];
-  [tiles setNeedsDisplay: YES];
+  if (trackTiles && tileLog)
+    [tiles setNeedsDisplay: YES];
+  tileLog = NO;
 }
 
 @end
@@ -78,7 +86,8 @@ void paletteRamModified(u32 address) {
 }
 
 void vramModified(u32 address) {
-  
+  // TODO real tile tracking
+  instance->tileLog = YES;
 }
 
 void oamModified(u32 address) {

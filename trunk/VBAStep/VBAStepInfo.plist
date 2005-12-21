@@ -1,8 +1,8 @@
 {
   ApplicationName = "VBAStep";
   ApplicationDescription = "GameBoy Advance Debugger";
-  ApplicationRelease = "VBAStep 0.1";
-  FullVersionID = "0.1.0 - 1.8.0";
+  ApplicationRelease = "VBAStep 0.2";
+  FullVersionID = "0.2.0 - 1.8.0";
   Authors = ("Rib Rdb <ribrdb@ribrdb.com>");
   Copyright = "Copyright (C) 2005 Rib Rdb";
   CopyrightDescription = "GPL";

@@ -30,6 +30,15 @@ static NSConditionLock *delayLock;
 
 @implementation MainController
 
+- (void)awakeFromNib {
+  autoscroll = YES;
+}
+
+- (id) init {
+  autoscroll = YES;
+  return self;
+}
+
 - (void)applicationWillFinishLaunching: (NSNotification *)aNotification
 {
   controllerInstance = self;
@@ -125,10 +134,21 @@ static NSConditionLock *delayLock;
 
 - (void)logMessage:(NSString *)msg
 {
-  NSAttributedString *amsg = [[NSAttributedString alloc] initWithString:msg];
-  [[logView textStorage] appendAttributedString: amsg ];
-  [amsg release];
-  [msg release];
+  NSRange endRange;
+
+  endRange.location = [[logView textStorage] length];
+  endRange.length = 0;
+  [logView replaceCharactersInRange:endRange withString:msg];
+  if (autoscroll) {
+    endRange.length = [msg length];
+    [logView scrollRangeToVisible: endRange];
+  }
+}
+
+- (IBAction)clearLog:(id)sender {
+  NSAttributedString *empty = [[NSAttributedString alloc] initWithString:@""];
+  [[logView textStorage] setAttributedString: empty];
+  [empty release];
 }
 
 + (void)appendToLog:(NSString *)str

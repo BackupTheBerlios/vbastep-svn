@@ -35,16 +35,19 @@
   IBOutlet NSView *spritePalView;
   IBOutlet NSView *bgPalView;
   IBOutlet MemLogger *memLogger;
+  BOOL autoscroll;
 }
 
 - (void)applicationWillFinishLaunching: (NSNotification *)aNotification;
 - (Emulator*)emulator;
 - (void)startEmu;
 - (void)loadRom:(NSString*)filename;
+- (IBAction)clearLog:(id)sender;
 
 + (void)refreshDisplays;
 + (void)displaySpeed:(int)speed;
 + (void)appendToLog:(NSString*)str;
+
 @end
 
 #endif /* _APPLICATION_MAIN_CONTROLLER_H_ */

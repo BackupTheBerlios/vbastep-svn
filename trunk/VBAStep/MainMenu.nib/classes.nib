@@ -27,7 +27,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {toggleLayer = id; }; 
+            ACTIONS = {clearLog = id; toggleLayer = id; }; 
             CLASS = MainController; 
             LANGUAGE = ObjC; 
             OUTLETS = {

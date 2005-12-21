@@ -233,4 +233,11 @@
   [self setNeedsDisplayInRect: [self rectForTile: tileno]];
 }
 
+- (void)setOpaque:(BOOL)b {
+  opaque = b;
+}
+
+- (BOOL)isOpaque {
+  return opaque;
+}
 @end

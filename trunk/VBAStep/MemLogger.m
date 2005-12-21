@@ -33,16 +33,16 @@ static MemLogger *instance = nil;
   [super dealloc];
 }
 
-- (void)windowDidExpose:(NSNotification*)not
+- (void)windowDidBecomeKey:(NSNotification*)notification
 {
-  if ([not object] == palWindow) {
+  if ([notification object] == palWindow) {
     trackPals = YES;
   }
 }
 
-- (void)windowWillClose:(NSNotification*)not
+- (void)windowWillClose:(NSNotification*)notification
 {
-  if ([not object] == palWindow) {
+  if ([notification object] == palWindow) {
     trackPals = NO;
   }
 }
@@ -50,18 +50,21 @@ static MemLogger *instance = nil;
 - (void)updateWindows
 {
   int i = [palLog size];
-  while (i-- > 0) {
-    int j;
-    u32 color = [palLog itemAtIndex:i]/2;
-    for (j = 0; j < 2; j++) {
-      if (color + j< 256) {
-        [bgPal setTileNeedsDisplay: color + j];
-      } else {
-        [spritePal setTileNeedsDisplay: ((color + j) & 255)];
+  if (trackPals) {
+    while (i-- > 0) {
+      int j;
+      u32 color = [palLog itemAtIndex:i]/2;
+      for (j = 0; j < 2; j++) {
+        if (color + j< 256) {
+          [bgPal setTileNeedsDisplay: color + j];
+        } else {
+          [spritePal setTileNeedsDisplay: ((color + j) & 255)];
+        }
       }
     }
   }
   [palLog swap];
+  [tiles setNeedsDisplay: YES];
 }
 
 @end

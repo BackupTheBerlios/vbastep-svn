@@ -25,12 +25,15 @@ static MainController *controllerInstance = nil;
 static Emulator *emulator = nil;
 static NSImageRep *screenImage = nil;
 static int systemSpeed;
+static NSConditionLock *delayLock;
+
 
 @implementation MainController
 
 - (void)applicationWillFinishLaunching: (NSNotification *)aNotification
 {
   controllerInstance = self;
+  delayLock = [[NSConditionLock alloc] initWithCondition:0];
   initSystem();
 }
 
@@ -147,6 +150,22 @@ static int systemSpeed;
 - (void) startEmu {
     [gbaWindow makeKeyAndOrderFront:self];
     [emulator startRunning];
+}
+
++ (void) delayForMillis:(int)millis {
+  NSTimeInterval seconds = (NSTimeInterval)millis/1000.0;
+  NSTimer *t = [NSTimer scheduledTimerWithTimeInterval: seconds
+                        target: controllerInstance
+                        selector: @selector(delayTimerFired)
+                        userInfo: nil
+                        repeats: NO];
+  [delayLock lockWhenCondition: 1];
+  [delayLock unlockWithCondition: 0];
+}
+
+- (void) delayTimerFired:(NSTimer*)timer {
+  [delayLock lock];
+  [delayLock unlockWithCondition: 1];
 }
 @end
 

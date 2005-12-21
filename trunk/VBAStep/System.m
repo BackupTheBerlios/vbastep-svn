@@ -28,6 +28,7 @@
 #import "MainController.h"
 #import <Foundation/Foundation.h>
 
+BOOL wasPaused = YES;
 NSDate *startTime = nil;
 u32 gsKeyState;
 
@@ -49,7 +50,7 @@ char systemSoundOn;
 int  emulating;
 char debugger;
 int  RGB_LOW_BITS_MASK;
-
+static u32 throttleLastTime;
 
 // Extra vars, only used for the GUI
 //
@@ -93,7 +94,19 @@ void systemShowSpeed(int _iSpeed)
 
 void system10Frames(int _iRate)
 {
-  // XXX: GUI()->vComputeFrameskip(_iRate);
+#if 0
+  u32 time = systemGetClock();
+  if (!wasPaused) {
+    u32 diff = time - throttleLastTime;
+    int target = 10000/_iRate;
+    int d = target - diff;
+    if (d > 0) {
+      [MainController delayForMillis: d];
+    }
+  }
+  wasPaused = 0;
+  throttleLastTime = systemGetClock();
+#endif
 }
 
 void systemFrame()

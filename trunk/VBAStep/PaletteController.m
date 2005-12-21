@@ -36,10 +36,25 @@ inline unsigned int gbaColorForId(int id) {
 }
 - (IBAction)colorSelected:(id)sender
 {
+  NSColor *color = [sender color];
+  int r, g, b;
+  int selection;
+  r = (int)31*[color redComponent];
+  g = (int)31*[color greenComponent];
+  b = (int)31*[color blueComponent];
+  selection = [bgGrid getSelection];
+  if (selection == -1) {
+    selection = [spriteGrid getSelection];
+    if (selection == -1)
+      return;
+    selection += 256;
+  }
+  debuggerWriteHalfWord((0x5000000 + 2*selection), (b<<10)|(g<<5)|(r));
 }
 
 - (IBAction)editTile:(id)sender
 {
+  [colorWell activate:YES];
 }
 - (void) tileGrid:(TileGrid*)_grid willDrawTile:(int)which selected:(BOOL)b {
   [tile setSelected:b];

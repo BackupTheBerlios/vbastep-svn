@@ -21,6 +21,7 @@
 
 @interface MemLogger : NSObject
 {
+  IBOutlet TileGrid *tiles;
   IBOutlet TileGrid *bgPal;
   IBOutlet TileGrid *spritePal;
   IBOutlet NSWindow *palWindow;

@@ -9,6 +9,7 @@
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = GbaScreen; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = GbaTile; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {cancelConnection = id; okPressed = id; showConnectDialog = id; }; 
             CLASS = GdbController; 
@@ -44,10 +45,16 @@
         {
             CLASS = MemLogger; 
             LANGUAGE = ObjC; 
-            OUTLETS = {bgPal = TileGrid; palWindow = NSWindow; spritePal = TileGrid; }; 
+            OUTLETS = {
+                bgPal = TileGrid; 
+                palWindow = NSWindow; 
+                spritePal = TileGrid; 
+                tiles = TileGrid; 
+            }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
         {
             ACTIONS = {colorSelected = id; editTile = id; selectTile = id; }; 
             CLASS = PaletteController; 
@@ -60,6 +67,20 @@
                 spriteGrid = TileGrid; 
                 tile = ColorTile; 
                 value = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {depthChanged = id; paletteChanged = id; tabSelected = id; }; 
+            CLASS = TileController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addressField = NSTextField; 
+                grid = TileGrid; 
+                paletteField = NSTextField; 
+                paletteStepper = NSStepper; 
+                preview = NSImageView; 
+                tile = GbaTile; 
             }; 
             SUPERCLASS = NSObject; 
         }, 

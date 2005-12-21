@@ -29,6 +29,7 @@
   int tiles;
   int cols;
   int selection;
+  BOOL opaque;
 }
 
 - (id)delegate;
@@ -53,6 +54,7 @@
 - (void)setSelection:(int)tileno;
 - (NSToolTipTag)addToolTipForTile:(int)tileno owner:(id)owner userData:(void*)data;
 - (void)setTileNeedsDisplay:(int)tileno;
+- (void)setOpaque:(BOOL)b;
 @end
 
 @interface NSObject ( TileGridDelegate )

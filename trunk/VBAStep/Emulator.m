@@ -44,6 +44,8 @@ void debuggerOutput(char*, u32);
 
 extern char cpuBreakLoop;
 extern int emulating;
+extern BOOL wasPaused;
+
 
 static enum {
   NOT_PAUSED = 0,
@@ -208,6 +210,7 @@ extern void remoteStubMain();
   if (shutdown || !emulating || (pausing != NOT_PAUSED))
     return;
   pausing = PAUSING;
+  wasPaused = YES;
   cpuBreakLoop = YES;
   [lock lockWhenCondition: COND_READY_TO_PAUSE];
   [lock unlockWithCondition: COND_BLOCK_EMU];

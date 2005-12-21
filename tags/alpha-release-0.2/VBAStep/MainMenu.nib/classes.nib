@@ -1,0 +1,96 @@
+{
+    IBClasses = (
+        {CLASS = ColorTile; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = Emulator; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {myAction = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = GbaScreen; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = GbaTile; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {cancelConnection = id; okPressed = id; showConnectDialog = id; }; 
+            CLASS = GdbController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                connectDialog = NSWindow; 
+                mainController = MainController; 
+                portField = NSTextField; 
+                portField2 = NSTextField; 
+                portLabel = NSTextField; 
+                portView = NSView; 
+                progressBar = NSProgressIndicator; 
+                waitDialog = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {clearLog = id; toggleLayer = id; }; 
+            CLASS = MainController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                bgPalView = NSView; 
+                display = GbaScreen; 
+                gbaWindow = NSWindow; 
+                layersWindow = NSWindow; 
+                logView = NSTextView; 
+                logWindow = NSWindow; 
+                memLogger = MemLogger; 
+                spritePalView = NSView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = MemLogger; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                bgPal = TileGrid; 
+                palWindow = NSWindow; 
+                spritePal = TileGrid; 
+                tileWindow = NSWindow; 
+                tiles = TileGrid; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            ACTIONS = {colorSelected = id; editTile = id; selectTile = id; }; 
+            CLASS = PaletteController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                address = id; 
+                bgGrid = TileGrid; 
+                colorWell = NSColorWell; 
+                html = id; 
+                spriteGrid = TileGrid; 
+                tile = ColorTile; 
+                value = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {depthChanged = id; paletteChanged = id; tabSelected = id; }; 
+            CLASS = TileController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addressField = NSTextField; 
+                grid = TileGrid; 
+                paletteField = NSTextField; 
+                paletteStepper = NSStepper; 
+                preview = NSImageView; 
+                tile = GbaTile; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = TileGrid; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; selectedTile = id; standardTile = id; target = id; }; 
+            SUPERCLASS = NSView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

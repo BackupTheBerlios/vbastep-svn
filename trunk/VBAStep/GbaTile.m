@@ -73,22 +73,30 @@ static inline unsigned int gbaColorForId(int id) {
   return NSMakeSize(8,8);
 }
 
+// XXX: Invert the y axis
 - (void)drawAtPoint:(NSPoint)p inView:(NSView*)view {
   u32 *repData = (u32*)[rep bitmapData];
-  u8 *cur, *end;
+  u8 *cur = data;
+  int row, col;
+  if (!data)
+    return;
   if (eightbit) {
-    end = data + 64;
-    for (cur = data; cur < end; cur++) {
-      u16 color = gbaColorForId(*cur + pal_base);
-      *(repData++) = systemColorMap32[color];
+    for (row = 0; row < 8; row++) {
+      for (col = 0; col < 8; col++) {
+        u16 color = gbaColorForId(*cur + pal_base);
+        *(repData + 8*(7 - row ) + col) = systemColorMap32[color];
+        cur++;
+      }
     }
   } else {
-    end = data + 32;
-    for (cur = data; cur < end; cur++) {
-      u16 color = gbaColorForId((*cur & 0xF) + pal_base);
-      *(repData++) = systemColorMap32[color];
-      color = gbaColorForId((*cur >> 4) + pal_base);
-      *(repData++) = systemColorMap32[color];
+    for (row = 0; row < 8; row++) {
+      for (col = 0; col < 4; col++) {
+        u16 color = gbaColorForId((*cur & 0xF) + pal_base);
+        *(repData + 8*(7 - row ) + 2*col) = systemColorMap32[color];
+        color = gbaColorForId((*cur >> 4) + pal_base);
+        *(repData + 8*(7 - row ) + 2*col + 1) = systemColorMap32[color];
+        cur++;
+      }
     }
   }
 

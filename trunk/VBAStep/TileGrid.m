@@ -170,7 +170,6 @@ static void initTransforms(void) {
 
   for (curtile = 0; curtile < tiles; curtile++) {
     if ([self needsToDrawRect: r]) {
-      NSAffineTransform *translate = [[NSAffineTransform transform] retain];
       // notify delegate (who should prepare the tile to draw)
       if ([delegate respondsToSelector:
                       @selector(tileGrid:willDrawTile:selected:)]) {
@@ -185,20 +184,9 @@ static void initTransforms(void) {
         tile = standardTile;
       }
 
-      // It would probably be better to invert the axis once
-      // and calculate the correspoinding y coordinates
-      // (could then use drawAtPoint instead of a transform)
-      [translate translateXBy: r.origin.x yBy: r.origin.y];
-      [translate concat];
-      [yFlip concat];
-
       // and draw it
-      [tile drawAtPoint:NSZeroPoint inView:self];
+      [tile drawAtPoint:r.origin inView:self];
 
-      [yFlip concat];
-      [translate invert];
-      [translate concat];
-      [translate release];
     }
     // figure out where to draw the next tile
     r.origin.x += r.size.width;

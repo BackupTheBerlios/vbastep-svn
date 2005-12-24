@@ -24,6 +24,7 @@
   NSBitmapImageRep *rep;
   image = [[NSImage alloc] initWithSize: NSMakeSize(8,8)];
   [image setCacheMode: NSImageCacheNever];
+  [image setFlipped: YES];
 #if 0 /* Let NSImage allocate it's own reg */
   rep = [[NSBitmapImageRep alloc]
           initWithBitmapDataPlanes: nil
@@ -62,7 +63,7 @@
 
 - (IBAction)tabSelected:(id)sender
 {
-  int selection = [sender selectedSegment];
+  int selection = [[sender selectedCell] tag];
   int newbase;
   charData = 0x6000000 + 32*1024*selection;
   if (selection == 2) // sprites

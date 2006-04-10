@@ -354,7 +354,7 @@ void remoteSendSignal()
   remotePutPacket(buffer);
 }
 
-void remoteSendStatus()
+void remoteSendStatus(u32 addr = 0)
 {
   char buffer[1024];
   sprintf(buffer, "T%02x", remoteSignal);
@@ -381,7 +381,15 @@ void remoteSendStatus()
           (v >> 8) & 255,
           (v >> 16) & 255,
           (v >> 24) & 255);
-  s += 12;  
+  s += 12;
+  if (addr) {
+    v = addr;
+    sprintf(s, "watch:%02x%02x%02x%02x;", (v & 255),
+            (v >> 8) & 255,
+            (v >> 16) & 255,
+            (v >> 24) & 255);
+    s += 15;
+  }
   *s = 0;
   //  printf("Sending %s\n", buffer);
   remotePutPacket(buffer);  
@@ -392,7 +400,6 @@ void remoteBinaryWrite(char *p)
   u32 address;
   int count;
   sscanf(p,"%x,%x:", &address, &count);
-    printf("Binary write for %08x %d\n", address, count);
 
   p = strchr(p, ':');
   p++;
@@ -540,7 +547,7 @@ void remoteReadRegisters(char *p)
           (pc >> 16) & 255, (pc >> 24) & 255);
   s += 8;
 
-  // floating point registers (24-bit)
+  // floating point registers (96-bit)
   for(i = 0; i < 8; i++) {
     sprintf(s, "000000000000000000000000");
     s += 24;
@@ -556,6 +563,30 @@ void remoteReadRegisters(char *p)
           (v >> 16) & 255, (v >> 24) & 255);
   s += 8;
   *s = 0;
+  remotePutPacket(buffer);
+}
+
+void remoteReadRegister(char *p)
+{
+  int r;
+  u32 v;
+  char buffer[9];
+
+  sscanf(p, "%x", &r);
+
+  if (r == 15) {
+    v = armNextPC;
+  } else if (r < 15) {
+    v = reg[r].I;
+  } else if (r == 25) {
+    v = reg[16].I;
+  } else {
+    remotePutPacket("00");
+    return;
+  }
+
+  sprintf(buffer, "%02x%02x%02x%02x",  v & 255, (v >> 8) & 255,
+          (v >> 16) & 255, (v >> 24) & 255);
   remotePutPacket(buffer);
 }
 
@@ -593,6 +624,13 @@ void remoteWriteRegister(char *p)
 
   v = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
 
+  if (r == 25) {
+    r = 16;
+  } else if (r > 15) {
+    remotePutPacket("OK");
+    return;
+  }
+
   //  printf("Write register %d=%08x\n", r, v);
   reg[r].I = v;
   if(r == 15) {
@@ -618,7 +656,7 @@ void remoteStubMain()
   }
   
   while(1) {
-    char buffer[1024];
+    char buffer[1025];
     int res = remoteRecvFnc(buffer, 1024);
     
     if(res == -1) {
@@ -630,13 +668,18 @@ void remoteStubMain()
       debugger = false;
       break;
     }
+    buffer[res] = 0;
 
-    //    fprintf(stderr, "Received %s\n", buffer);
+    fprintf(stderr, "Received %s\n", buffer);
     char *p = buffer;
     char c = *p++;
     char pp = '+';
     remoteSendFnc(&pp, 1);
 
+    if(c == 3) {
+      remoteStubSignal(5,0);
+      continue;
+    }
     if(c != '$')
       continue;
     c= *p++;
@@ -685,6 +728,9 @@ void remoteStubMain()
     case 'g':
       remoteReadRegisters(p);
       break;
+    case 'p':
+      remoteReadRegister(p);
+      break;
     case 'P':
       remoteWriteRegister(p);
       break;
@@ -715,6 +761,18 @@ void remoteStubMain()
       } else
 	remotePutPacket("");
       break;
+    case 'v': {
+      char c[] = {'C', 'o', 'n', 't', '?'};
+      int i;
+      for (i = 0; i < 5; i++) {
+        if (p[i] != c[i])
+          break;
+      }
+      if (i == 5) {
+        remotePutPacket("");
+        break;
+      }
+    }
     default:
       {
         *(strchr(p, '#') + 3) = 0;      
@@ -734,6 +792,12 @@ void remoteStubSignal(int sig, int number)
   debugger = true;
 }
 
+extern "C" void debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value, 
+                          int size, int t) {
+  remoteResumed = false;
+  remoteSendStatus(address);
+  debugger = true;
+}
 void remoteCleanUp()
 {
   if(remoteCleanUpFnc)

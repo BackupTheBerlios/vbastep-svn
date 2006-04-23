@@ -44,90 +44,20 @@
   [imageRep draw];
 }
 
--(void)keyDown:(NSEvent *)event
-{
-  if (![event isARepeat]) {
-    NSString *chars = [event characters];
-    if ([chars length] == 1) {
-      switch ([chars characterAtIndex:0]) {
-      case L_KEY:
-        gsKeyState |= L_KEY_FLAG;
-        break;
-      case R_KEY:
-        gsKeyState |= R_KEY_FLAG;
-        break;
-      case A_KEY:
-        gsKeyState |= A_KEY_FLAG;
-        break;
-      case B_KEY:
-        gsKeyState |= B_KEY_FLAG;
-        break;
-      case START_KEY:
-        gsKeyState |= START_KEY_FLAG;
-        break;
-      case SELECT_KEY:
-        gsKeyState |= SELECT_KEY_FLAG;
-        break;
-      case UP_KEY:
-        gsKeyState |= UP_KEY_FLAG;
-        break;
-      case DOWN_KEY:
-        gsKeyState |= DOWN_KEY_FLAG;
-        break;
-      case LEFT_KEY:
-        gsKeyState |= LEFT_KEY_FLAG;
-        break;
-      case RIGHT_KEY:
-        gsKeyState |= RIGHT_KEY_FLAG;
-        break;        
-      }
-    }
-  }
-}
 
 -(void)keyUp:(NSEvent *)event
 {
-  if (![event isARepeat]) {
-    NSString *chars = [event characters];
-    if ([chars length] == 1) {
-      switch ([chars characterAtIndex:0]) {
-      case L_KEY:
-        gsKeyState &= ~L_KEY_FLAG;
-        break;
-      case R_KEY:
-        gsKeyState &= ~R_KEY_FLAG;
-        break;
-      case A_KEY:
-        gsKeyState &= ~A_KEY_FLAG;
-        break;
-      case B_KEY:
-        gsKeyState &= ~B_KEY_FLAG;
-        break;
-      case START_KEY:
-        gsKeyState &= ~START_KEY_FLAG;
-        break;
-      case SELECT_KEY:
-        gsKeyState &= ~SELECT_KEY_FLAG;
-        break;
-      case UP_KEY:
-        gsKeyState &= ~UP_KEY_FLAG;
-        break;
-      case DOWN_KEY:
-        gsKeyState &= ~DOWN_KEY_FLAG;
-        break;
-      case LEFT_KEY:
-        gsKeyState &= ~LEFT_KEY_FLAG;
-        break;
-      case RIGHT_KEY:
-        gsKeyState &= ~RIGHT_KEY_FLAG;
-        break;        
-      }
-    }
-  }
+  [keycontroller keyUp: event];
+}
+
+-(void)keyDown:(NSEvent *)event
+{
+  [keycontroller keyDown: event];
 }
 
 -(BOOL)acceptsFirstResponder
 {
   return YES;
 }
+
 @end

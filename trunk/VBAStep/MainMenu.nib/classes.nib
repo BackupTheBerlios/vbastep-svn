@@ -8,7 +8,12 @@
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = GbaScreen; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            CLASS = GbaScreen; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {keycontroller = MainController; }; 
+            SUPERCLASS = NSView; 
+        }, 
         {CLASS = GbaTile; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {cancelConnection = id; okPressed = id; showConnectDialog = id; }; 

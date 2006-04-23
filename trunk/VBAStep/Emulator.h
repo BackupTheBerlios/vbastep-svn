@@ -24,9 +24,10 @@
 @interface Emulator: NSObject
 {
   @public
-  NSConditionLock *lock;
+  NSConditionLock *pauseLock;
+  NSConditionLock *shutdownLock;
   struct EmulatedSystem gba;
-  BOOL shutdown;
+  int cancelSock;
 }
 
 - (BOOL)loadRom:(NSString *)romfile;
@@ -34,6 +35,7 @@
 - (void)startRunning;
 - (void)shutDown ;
 - (void)setRemoteDebugger:(BOOL)hasDebugger;
+- (void)reset;
 - (void)pause;
 - (void)resume;
 - (int)remoteInit:(int)port;

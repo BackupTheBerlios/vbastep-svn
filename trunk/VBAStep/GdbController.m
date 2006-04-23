@@ -66,18 +66,18 @@
 }
 
 - (void)remoteConnectSucceeded:(BOOL)b {
+  Emulator *emu = [mainController emulator];
   [waitDialog orderOut:self];
   [progressBar stopAnimation:self];
   if (b) {
-    Emulator *emu = [mainController emulator];
     debugger = YES;
-    if ([emu emulating]) {
-      [emu resume];
-    } else {
-      [mainController startEmu];
-    }
   } else if (!canceled) {
-    NSRunAlertPanel(@"Error",@"Error connecting to gdb",nil, nil, nil);
+      NSRunAlertPanel(@"Error",@"Error connecting to gdb",nil, nil, nil);
+  }
+  if ([emu emulating]) {
+    [emu resume];
+  } else if (b) {
+    [mainController startEmu];
   }
 }
 

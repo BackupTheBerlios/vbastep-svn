@@ -24,6 +24,7 @@
 # include <unistd.h>
 # include <sys/socket.h>
 # include <netdb.h>
+# include <signal.h>
 # ifdef HAVE_NETINET_IN_H
 #  include <netinet/in.h>
 # endif // HAVE_NETINET_IN_H
@@ -88,9 +89,19 @@ int remoteTcpSend(char *data, int len)
   return send(remoteSocket, data, len, 0);
 }
 
+static int unreadChar = -1;
 int remoteTcpRecv(char *data, int len)
 {
-  return recv(remoteSocket, data, len, 0);
+  ssize_t skipped = 0;
+  if (unreadChar != -1) {
+    *(data++) = unreadChar;
+    unreadChar = -1;
+    len -= 1;
+    skipped = 1;
+    if (len == 0)
+      return skipped;
+  }
+  return recv(remoteSocket, data, len, 0) + skipped;
 }
 
 int remoteTcpInit()
@@ -139,6 +150,7 @@ int remoteTcpInit()
       emulog("Error listening\n");
       return -1;
     }
+    signal (SIGPIPE, SIG_IGN);
     return     ntohs(remote_addr.sin_port);
 
   }
@@ -285,17 +297,17 @@ void remotePutPacket(char *packet)
   *p++ = hex[csum>>4];
   *p++ = hex[csum & 15];
   *p++ = 0;
-  //  printf("Sending %s\n", buffer);
+  fprintf(stderr, "Sending %s\n", buffer);
   remoteSendFnc(buffer, count + 4);
 
   char c = 0;
   remoteRecvFnc(&c, 1);
-  /*
+
   if(c == '+')
-    printf("ACK\n");
+    fprintf(stderr, "ACK\n");
   else if(c=='-')
-    printf("NACK\n");
-  */
+    fprintf(stderr, "NACK\n");
+
 }
 
 #if 0 /* Now in GBA.h */
@@ -644,7 +656,28 @@ void remoteWriteRegister(char *p)
 }
 
 extern int emulating;
+extern "C" void remoteStubCheckForBreak()
+{
+  fd_set rfds;
+  char c;
+  struct timeval poll = { 0, 0 };
 
+  if (unreadChar != -1)
+    return;
+
+  FD_ZERO(&rfds);
+  FD_SET(remoteSocket, &rfds);
+
+  if (select(remoteSocket + 1, &rfds, NULL, NULL, &poll) == 1) {
+    remoteRecvFnc(&c, 1);
+    if (c == 3) {
+      debugger = true;
+      remoteResumed = true;
+    } else {
+      unreadChar = c;
+    }
+  }
+}
 void remoteStubMain()
 {
   if(!debugger)
@@ -661,6 +694,7 @@ void remoteStubMain()
     
     if(res == -1) {
       fprintf(stderr, "GDB connection lost\n");
+      remoteCleanUp();
 #ifdef SDL
       dbgMain = debuggerMain;
       dbgSignal = debuggerSignal;

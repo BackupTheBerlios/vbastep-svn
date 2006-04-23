@@ -16,6 +16,8 @@ VBAStep_OBJC_FILES = \
 	MemLogger.m \
 	GbaTile.m \
 	TileController.m \
+	Keys.m \
+
 
 VBAStep_MAIN_MODEL_FILE = MainMenu.nib
 

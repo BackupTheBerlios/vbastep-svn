@@ -21,25 +21,10 @@
 @implementation TileController
 
 - (void)awakeFromNib {
-  NSBitmapImageRep *rep;
   image = [[NSImage alloc] initWithSize: NSMakeSize(8,8)];
   [image setCacheMode: NSImageCacheNever];
   [image setFlipped: YES];
-#if 0 /* Let NSImage allocate it's own reg */
-  rep = [[NSBitmapImageRep alloc]
-          initWithBitmapDataPlanes: nil
-          pixelsWide: 8
-          pixelsHigh: 8
-          bitsPerSample: 8
-          samplesPerPixel: 3
-          hasAlpha: NO
-          isPlanar: NO
-          colorSpaceName: NSDeviceRGBColorSpace
-          bytesPerRow: 8*4
-          bitsPerPixel: 32];
-  [image addRepresentation: rep];
-  [rep release];
-#endif
+
   [grid setTiles: 1024];
   [grid setCols: 32];
   [grid setAction:@selector(selectTile:)];

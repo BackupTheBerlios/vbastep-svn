@@ -17,15 +17,12 @@
 
 #import "MainController.h"
 #import "Emulator.h"
+#import "GbaScreen.h"
 
 #include "GBA.h"
 
 void initSystem();
 static MainController *controllerInstance = nil;
-static Emulator *emulator = nil;
-static NSImageRep *screenImage = nil;
-static int systemSpeed;
-static NSConditionLock *delayLock;
 
 
 @implementation MainController
@@ -35,6 +32,8 @@ static NSConditionLock *delayLock;
 }
 
 - (id) init {
+  emulator = nil;
+  screenImage = nil;
   autoscroll = YES;
   return self;
 }
@@ -42,7 +41,6 @@ static NSConditionLock *delayLock;
 - (void)applicationWillFinishLaunching: (NSNotification *)aNotification
 {
   controllerInstance = self;
-  delayLock = [[NSConditionLock alloc] initWithCondition:0];
   initSystem();
 }
 
@@ -51,6 +49,8 @@ static NSConditionLock *delayLock;
   [emulator shutDown];
   if (emulator == nil)
     emulator = [[Emulator alloc] init];
+  [[NSDocumentController sharedDocumentController]
+    noteNewRecentDocumentURL: [NSURL fileURLWithPath: filename]];
   [emulator loadRom:filename];
   screenImage = [emulator getImageRep];
   [display setImageRep: screenImage];
@@ -89,15 +89,19 @@ static NSConditionLock *delayLock;
 
 - (void)updateTitle:(int)speed
 {
-  [gbaWindow setTitle:[NSString stringWithFormat:@"VBA Step (%d%%)",
+  [gbaWindow setTitle:[NSString stringWithFormat:@"VBAstep (%d%%)",
                                 systemSpeed]];
+}
+
+- (void)displayPaused:(NSString*)type {
+  [gbaWindow setTitle:[NSString stringWithFormat:@"VBAstep (%@)", type]];
 }
 
 + (void)displaySpeed:(int)speed
 {
   // Could have this call setTitle on the window,
   // but have to make sure string is correctly retained
-  systemSpeed = speed;
+  controllerInstance->systemSpeed = speed;
   [controllerInstance performSelectorOnMainThread:@selector(updateTitle:)
                       withObject:nil//(id)speed
                       waitUntilDone:NO];
@@ -171,21 +175,11 @@ static NSConditionLock *delayLock;
     [gbaWindow makeKeyAndOrderFront:self];
     [emulator startRunning];
 }
-
+#if 0
 + (void) delayForMillis:(int)millis {
   NSTimeInterval seconds = (NSTimeInterval)millis/1000.0;
-  NSTimer *t = [NSTimer scheduledTimerWithTimeInterval: seconds
-                        target: controllerInstance
-                        selector: @selector(delayTimerFired)
-                        userInfo: nil
-                        repeats: NO];
-  [delayLock lockWhenCondition: 1];
-  [delayLock unlockWithCondition: 0];
+  [NSThread sleepUntilDate: [NSDate dateWithTimeIntervalSinceNow: seconds]];
 }
-
-- (void) delayTimerFired:(NSTimer*)timer {
-  [delayLock lock];
-  [delayLock unlockWithCondition: 1];
-}
+#endif
 @end
 

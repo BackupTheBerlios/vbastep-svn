@@ -21,9 +21,11 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
-#import "GbaScreen.h"
 #import "Emulator.h"
 #import "MemLogger.h"
+
+@class GbaScreen;
+@class Emulator;
 
 @interface MainController: NSObject
 {
@@ -35,6 +37,9 @@
   IBOutlet NSView *spritePalView;
   IBOutlet NSView *bgPalView;
   IBOutlet MemLogger *memLogger;
+  Emulator *emulator;
+  NSImageRep *screenImage;
+  int systemSpeed;
   BOOL autoscroll;
 }
 
@@ -48,6 +53,7 @@
 + (void)displaySpeed:(int)speed;
 + (void)appendToLog:(NSString*)str;
 
+- (void)displayPaused:(NSString*)type;
 @end
 
 #endif /* _APPLICATION_MAIN_CONTROLLER_H_ */

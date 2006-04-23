@@ -15,6 +15,7 @@
 // along with this program; if not, write to the Free Software Foundation,
 // Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#import "MainController.h"
 
 #define L_KEY 'a'
 #define L_KEY_FLAG 1 << 8;
@@ -37,4 +38,15 @@
 #define RIGHT_KEY NSRightArrowFunctionKey
 #define RIGHT_KEY_FLAG 1 << 4;
 
+#define PAUSE_KEY 'p'
+#define RESET_KEY 'r'
+#define CLOSE_KEY (27 /* Escape */)
+#define BREAK_KEY 'b'
+
+
 extern unsigned int gsKeyState;
+
+@interface MainController (Keys)
+  -(void)keyDown:(NSEvent *)event;
+  -(void)keyUp:(NSEvent *)event;
+@end

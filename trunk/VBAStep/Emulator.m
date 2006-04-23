@@ -22,12 +22,13 @@
 #include <sys/socket.h>
 #include "GBA.h"
 
-#define COND_BLOCK_EMU 1
-#define COND_UNBLOCK_EMU 2
+#define COND_EMU_RUNNING 1
+#define COND_EMU_SHUTTING_DOWN 2
 #define COND_EMU_SHUTDOWN 3
-#define COND_READY_TO_PAUSE 4
 
-
+#define COND_UNPAUSED 1
+#define COND_PAUSING 2
+#define COND_PAUSED 3
 
 extern int remoteInit();
 extern BOOL remoteTcpConnect(int);
@@ -46,13 +47,6 @@ extern char cpuBreakLoop;
 extern int emulating;
 extern BOOL wasPaused;
 
-
-static enum {
-  NOT_PAUSED = 0,
-  PAUSING = 1,
-  PAUSED = 2,
-} pausing;
-static int cancelSock;
 
 void (*dbgMain)() = debuggerMain;
 void (*dbgSignal)(int, int) = debuggerSignal;
@@ -102,26 +96,22 @@ void debuggerOutput(char *a, u32 b)
     free(a);
 }
 
-void debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value, 
-                          int size, int t)
-{
-}
- 
 @implementation Emulator
 
 - (id) init
 {
   self = [super init];
   gba = GBASystem;
-  shutdown = YES;
   emulating = NO;
-  lock = [[NSConditionLock alloc] init];
+  pauseLock = [[NSConditionLock alloc] initWithCondition: COND_UNPAUSED];
+  shutdownLock = [[NSConditionLock alloc] initWithCondition: COND_EMU_SHUTDOWN];
   return self;
 }
 
 - (void) dealloc
 {
-  [lock release];
+  [pauseLock release];
+  [shutdownLock release];
   [super dealloc];
 }
 
@@ -158,69 +148,120 @@ void debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value,
     [self setRemoteDebugger:NO];
   }
   debugger = NO;
+
   return YES;
 }
 extern void remoteStubMain();
-
+extern void remoteStubCheckForBreak();
 - (void)run:(id)sender
 {
   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   // Cocoa shouldn't be called from this thread so it
   // should be fine to release this at the end
+
+  [shutdownLock lockWhenCondition: COND_EMU_SHUTDOWN];
+  [shutdownLock unlockWithCondition: COND_EMU_RUNNING];
+  [pauseLock lock];
+  // make sure no one is left waiting for a resume
+  [pauseLock unlockWithCondition: COND_PAUSED];
+  [pauseLock lock];
+  [pauseLock unlockWithCondition: COND_UNPAUSED];
+
+  emulating = YES;
+
   while (emulating) {
-    if (pausing == PAUSING) {
-      [lock lock];
-      pausing = PAUSED;
-      [lock unlockWithCondition: COND_READY_TO_PAUSE];
-      [lock lockWhenCondition: COND_UNBLOCK_EMU];
-      pausing = NOT_PAUSED;
-      [lock unlock];
+    if ([pauseLock tryLockWhenCondition: COND_PAUSING]) {
+      [pauseLock unlockWithCondition: COND_PAUSED];
+      [pauseLock lockWhenCondition: COND_UNPAUSED];
+      [pauseLock unlock];
     } else {
-      if (debugger)
+      if (debugger) {
         remoteStubMain();
-      else
+      } else {
+        if (dbgMain == remoteStubMain)
+          remoteStubCheckForBreak();
         gba.emuMain(gba.emuCount);
+      }
     }
   }
-  [lock lock];
-  shutdown = YES;
-  [lock unlockWithCondition: COND_EMU_SHUTDOWN];
+  [shutdownLock lock];
+  [shutdownLock unlockWithCondition: COND_EMU_SHUTDOWN];
   [pool release];
 }
 
 - (void)startRunning {
-  shutdown = NO;
-  emulating = YES;
   [NSThread detachNewThreadSelector:@selector(run:)
             toTarget:self
             withObject:self];
 }
 
 - (void)shutDown {
-  if (shutdown)
-    return;
-  // XXX: Make sure nothing else can touch the condition!!
-  emulating = NO;
-  cpuBreakLoop = YES;
-  [lock lockWhenCondition: COND_EMU_SHUTDOWN];
-  [lock unlock];
+  BOOL first = NO;
+  [shutdownLock lock];
+  switch ([shutdownLock condition]) {
+  case COND_EMU_SHUTDOWN:
+    break;
+
+  case COND_EMU_RUNNING:
+    first = YES;
+    emulating = NO;
+    cpuBreakLoop = YES;
+
+    [self resume];
+
+    // Fall through
+
+  case COND_EMU_SHUTTING_DOWN:
+    [shutdownLock unlockWithCondition: COND_EMU_SHUTTING_DOWN];
+    [shutdownLock lockWhenCondition: COND_EMU_SHUTDOWN];
+  }
+  if (first) {
+    if (dbgMain == remoteStubMain) {
+      remoteCleanUp();
+      [self setRemoteDebugger:NO];
+    }
+    debugger = NO;
+  }
+
+  [shutdownLock unlockWithCondition: COND_EMU_SHUTDOWN];
+}
+
+- (void)reset {
+  if ([self emulating]) {
+    gba.emuReset();
+  }
 }
 
 - (void)pause {
-  if (shutdown || !emulating || (pausing != NOT_PAUSED))
+  if (![self emulating])
     return;
-  pausing = PAUSING;
-  wasPaused = YES;
-  cpuBreakLoop = YES;
-  [lock lockWhenCondition: COND_READY_TO_PAUSE];
-  [lock unlockWithCondition: COND_BLOCK_EMU];
+  [pauseLock lock];
+  switch ([pauseLock condition]) {
+  case COND_PAUSED:
+    break;
+  case COND_UNPAUSED:
+    wasPaused = YES;
+    cpuBreakLoop = YES;
+    // fall through
+  case COND_PAUSING:
+    [pauseLock unlockWithCondition: COND_PAUSING];
+    [pauseLock lockWhenCondition: COND_PAUSED];
+  }
+  [pauseLock unlockWithCondition: COND_PAUSED];
 }
 
 - (void)resume {
-  if (pausing != PAUSED)
-    return;
-  [lock lock];
-  [lock unlockWithCondition: COND_UNBLOCK_EMU];
+  [pauseLock lock];
+  switch ([pauseLock condition]) {
+  case COND_UNPAUSED:
+    break;
+  case COND_PAUSING:
+    [pauseLock unlock];
+    [pauseLock lockWhenCondition: COND_PAUSED];
+  case COND_PAUSED:
+    break;
+  }
+  [pauseLock unlockWithCondition: COND_UNPAUSED];
 }
 
 - (void)setRemoteDebugger:(BOOL)hasDebugger {
@@ -250,7 +291,8 @@ extern void remoteStubMain();
 
 - (void)cancelRemoteConnect {
   char c = 1;
-  (void)write(cancelSock, &c, 1);
+  if (cancelSock)
+    (void)write(cancelSock, &c, 1);
 }
 
 - (void)_waitForGdb:(id)sender {
@@ -263,6 +305,7 @@ extern void remoteStubMain();
     result = remoteTcpConnect(sockets[1]);
     close(sockets[0]);
     close(sockets[1]);
+    cancelSock = 0;
   }
   if ([sender respondsToSelector:@selector(remoteConnectSucceeded:)]) {
     [sender remoteConnectSucceeded:result];
@@ -272,11 +315,11 @@ extern void remoteStubMain();
 }
 
 - (BOOL)running {
-  return (pausing == NOT_PAUSED) && [self emulating];
+  return ([pauseLock condition] == COND_UNPAUSED) && [self emulating];
 }
 
 - (BOOL)emulating {
-  return emulating && !shutdown;
+  return emulating && ([shutdownLock condition] == COND_EMU_RUNNING);
 }
 
 @end

@@ -94,19 +94,18 @@ void systemShowSpeed(int _iSpeed)
 
 void system10Frames(int _iRate)
 {
-#if 0
   u32 time = systemGetClock();
   if (!wasPaused) {
     u32 diff = time - throttleLastTime;
     int target = 10000/_iRate;
     int d = target - diff;
     if (d > 0) {
-      [MainController delayForMillis: d];
+      NSTimeInterval seconds = (NSTimeInterval)d/1000.0;
+      [NSThread sleepUntilDate: [NSDate dateWithTimeIntervalSinceNow: seconds]];
     }
   }
   wasPaused = 0;
   throttleLastTime = systemGetClock();
-#endif
 }
 
 void systemFrame()
@@ -116,6 +115,7 @@ void systemFrame()
 void systemSetTitle(const char * _csTitle)
 {
   //XXX: GUI()->set_title(_csTitle);
+  fprintf(stderr, "XXX: systemSetTitle(\"%s\")", _csTitle);
 }
 
 void systemScreenCapture(int _iNum)

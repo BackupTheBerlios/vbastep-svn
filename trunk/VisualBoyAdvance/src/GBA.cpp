@@ -40,7 +40,7 @@
 #include "Port.h"
 #include "agbprint.h"
 #ifdef BKPT_SUPPORT
-#include "BitMap.h"
+#include "VBABitMap.h"
 #endif
 #ifdef PROFILING
 #include "prof/prof.h"

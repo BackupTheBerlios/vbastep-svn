@@ -20,7 +20,7 @@
 #ifndef VBA_GBAcpu_H
 #define VBA_GBAcpu_H
 
-#include "BitMap.h"
+#include "VBABitMap.h"
 extern BitMap<0xA000000/2> breakpoints;
 
 extern int armExecute();

@@ -43,7 +43,7 @@
 #endif // WIN32
 
 #include "GBA.h"
-#include "BitMap.h"
+#include "VBABitMap.h"
 
 extern BitMap<0xA000000/2> breakpoints;
 extern BitMap<0x3ff> freezePalRAM;

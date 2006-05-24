@@ -2203,7 +2203,7 @@ static insnfunc_t thumbInsnTable[1024] = {
   thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,  // B8
   thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,
   thumbBC,thumbBC,thumbBC,thumbBC,thumbBD,thumbBD,thumbBD,thumbBD,
-  thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,thumbUI,
+  thumbBP,thumbBP,thumbBP,thumbBP,thumbUI,thumbUI,thumbUI,thumbUI,
   thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,  // C0
   thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,
   thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,thumbC0,
@@ -2248,6 +2248,13 @@ int thumbExecute()
     //if ((armNextPC & 0x0803FFFF) == 0x08020000)
     //    busPrefetchCount=0x100;
 
+#ifdef BKPT_SUPPORT
+      if (breakpoints.isSet(armNextPC / 2)) {
+        extern void (*dbgSignal)(int,int);
+        dbgSignal(5, 0);
+        return 0;
+      }
+#endif
     u32 opcode = cpuPrefetch[0];
     cpuPrefetch[0] = cpuPrefetch[1];
 
@@ -2258,7 +2265,7 @@ int thumbExecute()
     u32 oldArmNextPC = armNextPC;
 #ifndef FINAL_VERSION
     if(armNextPC == stop) {
-      armNextPC = armNextPC++;
+      armNextPC = armNextPC + 1;
     }
 #endif
 

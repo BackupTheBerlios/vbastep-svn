@@ -210,6 +210,7 @@ bool cheatsCBATableGenerated = false;
 u16 super = 0;
 extern u32 mastercode;
 
+
 u8 cheatsCBACurrentSeed[12] = {
   0x00, 0x00, 0x00, 0x00,
   0x00, 0x00, 0x00, 0x00,
@@ -2802,7 +2803,7 @@ static u8 cheatsGetType(u32 address)
 void cheatsWriteMemory(u32 address, u32 value)
 {
 #ifdef BKPT_SUPPORT
-#ifndef SDL
+#ifdef SDL
   if(cheatsNumber == 0) {
     int type = cheatsGetType(address);
     u32 oldValue = debuggerReadMemory(address);
@@ -2812,6 +2813,9 @@ void cheatsWriteMemory(u32 address, u32 value)
     }
     debuggerWriteMemory(address, value);
   }
+#else
+  (void)address;
+  (void)value;
 #endif
 #endif
 }

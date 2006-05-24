@@ -39,6 +39,9 @@
 #include "Util.h"
 #include "Port.h"
 #include "agbprint.h"
+#ifdef BKPT_SUPPORT
+#include "BitMap.h"
+#endif
 #ifdef PROFILING
 #include "prof/prof.h"
 #endif
@@ -47,7 +50,7 @@
 #define _stricmp strcasecmp
 #endif
 
-
+BitMap<0xA000000 / 2> breakpoints;
 extern int emulating;
 int SWITicks = 0;
 int IRQTicks = 0;
@@ -1992,7 +1995,6 @@ void doDMA(u32 &s, u32 &d, u32 si, u32 di, u32 c, int transfer32)
   int dm = d >> 24;
   int sw = 0;
   int dw = 0;
-  bool blank = false;
   int sc = c;
 
   cpuDmaCount = c;

@@ -754,7 +754,7 @@ static void count(u32 opcode, int cond_res)
 
 #ifndef ALU_INIT_C
  #define ALU_INIT_C \
-    int dest = (opcode>>12) & 15;                       \
+    int dest = (opcode>>12) & 15;(void)dest;            \
     bool C_OUT = C_FLAG;                                \
     u32 value;
 #endif
@@ -1246,6 +1246,7 @@ DEFINE_ALU_INSN_C (1F, 3F, MVNS, YES)
     u32 rs = reg[(opcode >> 8) & 0x0F].I;               \
     int acc = (opcode >> 12) & 0x0F;   /* or destLo */  \
     int dest = (opcode >> 16) & 0x0F;  /* or destHi */  \
+    (void)acc;                                           \
     OP;                                                 \
     SETCOND;                                            \
     if ((s32)rs < 0)                                    \
@@ -2832,6 +2833,13 @@ int armExecute()
         //if ((armNextPC & 0x0803FFFF) == 0x08020000)
         //    busPrefetchCount = 0x100;
 
+#ifdef BKPT_SUPPORT
+      if (breakpoints.isSet(armNextPC / 2)) {
+        extern void (*dbgSignal)(int,int);
+        dbgSignal(5, 0);
+        return 0;
+      }
+#endif
         u32 opcode = cpuPrefetch[0];
         cpuPrefetch[0] = cpuPrefetch[1];
 

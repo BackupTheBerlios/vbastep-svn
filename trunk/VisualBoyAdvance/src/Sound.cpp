@@ -865,7 +865,7 @@ void soundDirectSoundATimer()
     }
     
     soundDSAValue = (soundDSFifoA[soundDSFifoAIndex]);
-    soundDSFifoAIndex = (++soundDSFifoAIndex) & 31;
+    soundDSFifoAIndex = (soundDSFifoAIndex + 1) & 31;
     soundDSFifoACount--;
   } else
     soundDSAValue = 0;
@@ -894,7 +894,7 @@ void soundDirectSoundBTimer()
     }
     
     soundDSBValue = (soundDSFifoB[soundDSFifoBIndex]);
-    soundDSFifoBIndex = (++soundDSFifoBIndex) & 31;
+    soundDSFifoBIndex = (soundDSFifoBIndex + 1) & 31;
     soundDSFifoBCount--;
   } else {
     soundDSBValue = 0;

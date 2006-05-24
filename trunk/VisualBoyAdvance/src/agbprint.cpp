@@ -23,12 +23,13 @@
 #include "Globals.h"
 #include "Port.h"
 
+#ifndef debuggerWriteHalfWord
 #define debuggerWriteHalfWord(addr, value) \
   WRITE16LE((u16*)&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask], (value))
 
 #define debuggerReadHalfWord(addr) \
   READ16LE(((u16*)&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]))
-
+#endif /* debuggerWriteHalfWord */
 static bool agbPrintEnabled = false;
 static bool agbPrintProtect = false;
 

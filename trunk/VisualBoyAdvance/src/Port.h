@@ -35,10 +35,12 @@ static inline u32 swap32(u32 v)
 #if defined(_BIG_ENDIAN) || defined(__BIG_ENDIAN__)
 #if defined(__GNUC__) && defined(__ppc__)
 
-#define READ16LE(base) \
-  ({ unsigned short lhbrxResult;       \
-     __asm__ ("lhbrx %0, 0, %1" : "=r" (lhbrxResult) : "r" (base) : "memory"); \
-      lhbrxResult; })
+//#define READ16LE(base)               
+static inline u16 READ16LE(void* base) {
+  unsigned short lhbrxResult;
+  __asm__ ("lhbrx %0, 0, %1" : "=r" (lhbrxResult) : "r" (base) : "memory");
+  return lhbrxResult;
+}
 
 #define READ32LE(base) \
   ({ unsigned long lwbrxResult; \

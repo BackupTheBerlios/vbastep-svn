@@ -33,6 +33,7 @@ struct Opcodes {
   char *mnemonic;
 };
 
+#ifndef debuggerReadMemory
 #define debuggerReadMemory(addr) \
   READ32LE(((u32*)&map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]))
 
@@ -41,6 +42,7 @@ struct Opcodes {
 
 #define debuggerReadByte(addr) \
   map[(addr)>>24].address[(addr) & map[(addr)>>24].mask]
+#endif
 
 const char hdig[] = "0123456789abcdef";
 

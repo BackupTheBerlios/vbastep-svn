@@ -54,9 +54,9 @@ extern int cpuTotalTicks;
 
 extern "C" {
   void registerModified(u32);
-  void paletteRamModified(u32);
+  void paletteRamModified(u32, u32, u32);
   void vramModified(u32);
-  void oamModified(u32);
+  void oamModified(u32,u32,u32);
 }
 
 #define CPUReadByteQuick(addr) \
@@ -357,27 +357,29 @@ inline u8 CPUReadByte(u32 address)
         return systemGetSensorY() & 255;
       case 0x8500:
         return systemGetSensorY() >> 8;
+      default:
+        goto unreadable;
       }
     }
     // default
   default:
-  unreadable:
-#ifdef DEV_VERSION
-    if(systemVerbose & VERBOSE_ILLEGAL_READ) {
-      emulog("Illegal byte read: %08x at %08x\n", address, armMode ?
-          armNextPC - 4 : armNextPC - 2);
-    }
-#endif
-    if(cpuDmaHack) {
-      return cpuDmaLast & 0xFF;
-    } else {
-      if(armState) {
-        return CPUReadByteQuick(reg[15].I+(address & 3));
-      } else {
-        return CPUReadByteQuick(reg[15].I+(address & 1));
-      }
-    }
     break;
+  }
+ unreadable:
+#ifdef DEV_VERSION
+  if(systemVerbose & VERBOSE_ILLEGAL_READ) {
+    emulog("Illegal byte read: %08x at %08x\n", address, armMode ?
+           armNextPC - 4 : armNextPC - 2);
+  }
+#endif
+  if(cpuDmaHack) {
+    return cpuDmaLast & 0xFF;
+  } else {
+    if(armState) {
+      return CPUReadByteQuick(reg[15].I+(address & 3));
+    } else {
+      return CPUReadByteQuick(reg[15].I+(address & 1));
+    }
   }
 }
 
@@ -424,13 +426,13 @@ inline void CPUWriteMemory(u32 address, u32 value)
     break;
   case 0x05:
 #ifdef DEV_VERSION
-    paletteRamModified(address & 0x3FE);
+    paletteRamModified(address & 0x3FE, 4, value);
 #endif /* DEV_VERSION */
     WRITE32LE(((u32 *)&paletteRAM[address & 0x3FC]), value);
     break;
   case 0x06:
 #ifdef DEV_VERSION
-    vramModified(address);
+    vramModified(address & 0x1FFFC);
 #endif /* DEV_VERSION */
     if(address & 0x10000)
       WRITE32LE(((u32 *)&vram[address & 0x17ffc]), value);
@@ -439,7 +441,7 @@ inline void CPUWriteMemory(u32 address, u32 value)
     break;
   case 0x07:
 #ifdef DEV_VERSION
-    oamModified(address & 0x3fe);
+    oamModified(address & 0x3fe, 4, value);
 #endif /* DEV_VERSION */
     WRITE32LE(((u32 *)&oam[address & 0x3fc]), value);
     break;
@@ -511,19 +513,22 @@ inline void CPUWriteHalfWord(u32 address, u16 value)
     break;
   case 5:
 #ifdef DEV_VERSION
-    paletteRamModified(address & 0x3FE);
+    paletteRamModified(address & 0x3FE, 2, value);
 #endif /* DEV_VERSION */
     WRITE16LE(((u16 *)&paletteRAM[address & 0x3fe]), value);
     break;
   case 6:
     if ((address & 0xFFFFFF) < 0x18000) {
 #ifdef DEV_VERSION
-      vramModified(address);
+      vramModified(address & 0x1fffe);
 #endif /* DEV_VERSION */
     WRITE16LE(((u16 *)&vram[address & 0x1fffe]), value);
     }
     break;
   case 7:
+#ifdef DEV_VERSION
+    oamModified(address & 0x3fe, 2, value);
+#endif /* DEV_VERSION */
     WRITE16LE(((u16 *)&oam[address & 0x3fe]), value);
     break;
   case 8:
@@ -580,6 +585,7 @@ inline void CPUWriteByte(u32 address, u8 b)
     break;
   case 4:
     if(address < 0x4000400) {
+      registerModified(address & 0x3ff);
       switch(address & 0x3FF) {
       case 0x301:
 	if(b == 0x80)
@@ -645,13 +651,16 @@ inline void CPUWriteByte(u32 address, u8 b)
     break;
   case 5:
     // no need to switch
+    paletteRamModified(address & 0x3FE, 2, (b << 8) | b);
     *((u16 *)&paletteRAM[address & 0x3FE]) = (b << 8) | b;
     break;
   case 6:
     // no need to switch 
     // byte writes to OBJ VRAM are ignored
-    if ((address & 0xFFFFFF) < objTilesAddress[((DISPCNT&7)+1)>>2])
+    if ((address & 0xFFFFFF) < objTilesAddress[((DISPCNT&7)+1)>>2]) {
+      vramModified(address & 0x1FFFF);
             *((u16 *)&vram[address & 0x1FFFE]) = (b << 8) | b;
+    }
     break;
   case 7:
     // no need to switch

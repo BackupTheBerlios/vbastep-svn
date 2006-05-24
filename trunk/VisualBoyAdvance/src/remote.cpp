@@ -43,7 +43,12 @@
 #endif // WIN32
 
 #include "GBA.h"
+#include "BitMap.h"
 
+extern BitMap<0xA000000/2> breakpoints;
+extern BitMap<0x3ff> freezePalRAM;
+extern BitMap<0x17fff> freezeVRAM;
+extern BitMap<0x3ff> freezeOAM;
 extern char debugger;
 extern void CPUUpdateCPSR();
 #ifdef SDL
@@ -93,6 +98,8 @@ static int unreadChar = -1;
 int remoteTcpRecv(char *data, int len)
 {
   ssize_t skipped = 0;
+  if (len < 1)
+    return 0;
   if (unreadChar != -1) {
     *(data++) = unreadChar;
     unreadChar = -1;
@@ -154,6 +161,7 @@ int remoteTcpInit()
     return     ntohs(remote_addr.sin_port);
 
   }
+  return -1;
 }
 
 bool remoteTcpConnect(int cancelSocket) {
@@ -275,6 +283,8 @@ int remoteInit()
 {
   if(remoteInitFnc)
     return remoteInitFnc();
+  else
+    return -1;
 }
 
 void remotePutPacket(char *packet)
@@ -539,7 +549,22 @@ void remoteWriteWatch(char *p, bool active)
   
   remotePutPacket("OK");
 }
-
+void remoteBreakpoint(char *p, bool active)
+{
+  u32 address;
+  int count;
+  sscanf(p, ",%x,%x#", &address, &count);
+  address /= 2;
+  count /= 2;
+  if (active) {
+    for (int i = 0; i < count; i++)
+      breakpoints.setBit(address++);
+  } else {
+    for (int i = 0; i < count; i++)
+      breakpoints.clearBit(address++);
+  }
+  remotePutPacket("OK");
+}
 void remoteReadRegisters(char *p)
 {
   char buffer[1024];
@@ -672,7 +697,10 @@ extern "C" void remoteStubCheckForBreak()
     remoteRecvFnc(&c, 1);
     if (c == 3) {
       debugger = true;
-      remoteResumed = true;
+      remoteResumed = false;
+      remoteSignal = 2;
+      remoteSendSignal();
+      remoteSignal = 5;
     } else {
       unreadChar = c;
     }
@@ -711,7 +739,9 @@ void remoteStubMain()
     remoteSendFnc(&pp, 1);
 
     if(c == 3) {
-      remoteStubSignal(5,0);
+      remoteSignal = 2;
+      remoteSendSignal();
+      remoteSignal = 5;
       continue;
     }
     if(c != '$')
@@ -784,16 +814,32 @@ void remoteStubMain()
       remotePutPacket("");
       break;
     case 'Z':
-      if(*p++ == '2') {
+      switch (*p++) {
+      case '0':
+      case '1':
+        remoteBreakpoint(p, true);
+        break;
+      case '2':
         remoteWriteWatch(p, true);
-      } else
+        break;
+      default:
         remotePutPacket("");
+        break;
+      }
       break;
     case 'z':
-      if(*p++ == '2') {
-	remoteWriteWatch(p, false);
-      } else
-	remotePutPacket("");
+      switch(*p++) {
+      case '0':
+      case '1':
+        remoteBreakpoint(p, false);
+        break;
+      case '2':
+        remoteWriteWatch(p, false);
+        break;
+      default:
+        remotePutPacket("");
+        break;
+      }
       break;
     case 'v': {
       char c[] = {'C', 'o', 'n', 't', '?'};
@@ -831,6 +877,8 @@ extern "C" void debuggerBreakOnWrite(u32 address, u32 oldvalue, u32 value,
   remoteResumed = false;
   remoteSendStatus(address);
   debugger = true;
+  extern bool cpuBreakLoop;
+  cpuBreakLoop = true;
 }
 void remoteCleanUp()
 {

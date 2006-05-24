@@ -20,6 +20,9 @@
 #ifndef VBA_GBAcpu_H
 #define VBA_GBAcpu_H
 
+#include "BitMap.h"
+extern BitMap<0xA000000/2> breakpoints;
+
 extern int armExecute();
 extern int thumbExecute();
 
@@ -245,6 +248,8 @@ inline int codeTicksAccess32(u32 address) // ARM NON SEQ
     busPrefetchCount = 0;
     return memoryWait32[addr];
   }
+  // XXX: Shouldn't get here
+  return 0;
 }
 
 inline int codeTicksAccessSeq16(u32 address) // THUMB SEQ

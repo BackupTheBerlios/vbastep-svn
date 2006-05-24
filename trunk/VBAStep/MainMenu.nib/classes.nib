@@ -51,9 +51,9 @@
             CLASS = MemLogger; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                bgPal = TileGrid; 
+                palController = PaletteController; 
                 palWindow = NSWindow; 
-                spritePal = TileGrid; 
+                spriteController = SpriteController; 
                 tileWindow = NSWindow; 
                 tiles = TileGrid; 
             }; 
@@ -76,6 +76,15 @@
             }; 
             SUPERCLASS = NSObject; 
         }, 
+        {
+            ACTIONS = {selectTile = id; }; 
+            CLASS = SpriteController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {grid = TileGrid; tile = SpriteTile; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = SpriteTile; LANGUAGE = ObjC; SUPERCLASS = GbaTile; }, 
+        {CLASS = TerminalView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             ACTIONS = {depthChanged = id; paletteChanged = id; tabSelected = id; }; 
             CLASS = TileController; 

@@ -16,20 +16,24 @@
 // Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #import <Foundation/Foundation.h>
-#import "PCList.h"
+#import "BitMap.h"
 #import "TileGrid.h"
+#import "PaletteController.h"
+#import "SpriteController.h"
 
 @interface MemLogger : NSObject
 {
   IBOutlet TileGrid *tiles;
-  IBOutlet TileGrid *bgPal;
-  IBOutlet TileGrid *spritePal;
+  IBOutlet PaletteController *palController;
+  IBOutlet SpriteController *spriteController;
   IBOutlet NSWindow *palWindow;
   IBOutlet NSWindow *tileWindow;
   BOOL trackPals;
   BOOL trackTiles;
 @public
-  PCList *palLog;
+  BitMapPair *colorLog;
+  BitMapPair *oamLog;
+  BitMapPair *palLog;
   BOOL tileLog;
 }
 

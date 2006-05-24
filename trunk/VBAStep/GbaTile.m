@@ -45,6 +45,11 @@ static inline unsigned int gbaColorForId(int id) {
   return self;
 }
 
+- (void)dealloc {
+  [rep release];
+  [super dealloc];
+}
+
 - (void)setSelectionColor:(NSColor*)aColor {
   selection_color = aColor;
 }

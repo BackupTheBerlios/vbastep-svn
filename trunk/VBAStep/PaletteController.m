@@ -86,5 +86,10 @@ inline unsigned int gbaColorForId(int id) {
 
   [colorWell setColor:colorForGbaColor(colorval)];
 }
-
+-(void)colorChanged:(unsigned)which {
+  if (which < 256)
+    [bgGrid setTileNeedsDisplay: which];
+  else
+    [spriteGrid setTileNeedsDisplay: which & 255];
+}
 @end

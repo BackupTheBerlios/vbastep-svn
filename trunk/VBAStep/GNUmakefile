@@ -17,6 +17,9 @@ VBAStep_OBJC_FILES = \
 	GbaTile.m \
 	TileController.m \
 	Keys.m \
+	SpriteTile.m \
+	SpriteController.m \
+	BitMap.m \
 
 
 VBAStep_MAIN_MODEL_FILE = MainMenu.nib
@@ -26,7 +29,8 @@ VBAStep_RESOURCE_FILES = \
 	 MainMenu.gmodel \
 
 
-ADDITIONAL_TOOL_LIBS +=  -lgba -lprof /opt/local/lib/libpng12.a -lz
+ADDITIONAL_OBJC_FLAGS += -Wall -g -O3
+ADDITIONAL_TOOL_LIBS +=  -lgba -lprof /opt/local/lib/libpng12.a -lz -liconv
 ADDITIONAL_LIB_DIRS += -L.
 ADDITIONAL_INCLUDE_DIRS += -I../VisualBoyAdvance/src
 
